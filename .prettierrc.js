@@ -4,13 +4,16 @@ module.exports = {
   bracketSpacing: true,
   singleQuote: true,
   trailingComma: 'all',
-  printWidth: 120,
   tabWidth: 2,
   useTabs: false,
   semi: true,
   jsxBracketSameLine: false,
   proseWrap: 'always',
-  importOrder: ['^base/|^components/|^helpers/|^hooks/|^modules/|^navigation/|^screens/|^styles/', '^[./]', '^assets/'],
+  importOrder: [
+    '^base/|^components/|^helpers/|^hooks/|^modules/|^navigation/|^screens/|^styles/',
+    '^[./]',
+    '^assets/',
+  ],
   importOrderSeparation: true,
   importOrderParserPlugins: [
     'typescript',
