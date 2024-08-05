@@ -16,6 +16,7 @@ export const LoginScreen = observer(() => {
     const uri = getAuthUri();
 
     if (IS_IOS) {
+      // TODO: implement auth for iOS
       navigation.navigate(RootRoutes.WebView, { uri });
       return;
     }
