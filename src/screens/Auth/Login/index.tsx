@@ -1,30 +1,35 @@
-import { Text, SafeAreaView, Button, Linking } from 'react-native';
+import { SafeAreaView, Button } from 'react-native';
 import { observer } from 'mobx-react';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootRoutes } from '../../../navigation/Root/routes';
 import { RootStackParamList } from '../../../navigation/Root/types';
 import { getAuthUri } from './helpers';
 import { IS_IOS } from '../../../constants/platform';
+import { useRootStore } from '../../../hooks/useRootStore';
+import { RootRoutes } from '../../../navigation/Root/routes';
 
 export const LoginScreen = observer(() => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const { authStore } = useRootStore();
 
   const handleLogin = async () => {
     const uri = getAuthUri();
 
     if (IS_IOS) {
-      navigation.navigate(RootRoutes.WebView, {
-        uri,
-      });
+      navigation.navigate(RootRoutes.WebView, { uri });
       return;
     }
 
-    await Linking.openURL(uri);
+    const result = await authStore.auth(uri);
+
+    if (result) {
+      // TODO: navigate to main app
+      return;
+    }
   };
 
   return (
     <SafeAreaView>
-      <Text>Hello world</Text>
       <Button title={'Auth'} onPress={handleLogin} />
     </SafeAreaView>
   );
