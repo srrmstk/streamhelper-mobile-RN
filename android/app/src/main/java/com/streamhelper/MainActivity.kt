@@ -1,10 +1,13 @@
 package com.streamhelper
 
+import android.content.Intent
+import android.net.Uri
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
 import android.os.Bundle;
+import android.util.Log
 
 class MainActivity : ReactActivity() {
 
@@ -24,5 +27,22 @@ class MainActivity : ReactActivity() {
   // required by react-native-screens
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(null)
+  }
+
+  // catch Twitch access token
+  override fun onNewIntent(intent: Intent?) {
+    super.onNewIntent(intent)
+    handleIntent(intent)
+  }
+
+  private fun handleIntent(intent: Intent?) {
+    if (intent != null && intent.action == Intent.ACTION_VIEW) {
+      val uri: Uri? = intent.data
+      if (uri != null && uri.scheme == "https" && uri.host == "streamhelpermobile") {
+        IntentModule.promise?.resolve(uri.toString())
+      } else {
+        IntentModule.promise?.reject("", "Uri is null or not related to Twitch")
+      }
+    }
   }
 }
