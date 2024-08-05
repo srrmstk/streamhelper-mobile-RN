@@ -8,7 +8,10 @@ import { RootStackParamList } from './types';
 const Stack = createStackNavigator<RootStackParamList>();
 
 export const RootNavigator: React.FC = () => (
-  <Stack.Navigator initialRouteName={RootRoutes.Auth}>
+  <Stack.Navigator
+    initialRouteName={RootRoutes.Auth}
+    screenOptions={{ headerShown: false }}
+  >
     <Stack.Screen name={RootRoutes.Auth} component={AuthNavigator} />
     <Stack.Screen name={RootRoutes.Main} component={MainNavigator} />
     <Stack.Screen name={RootRoutes.WebView} component={WebViewScreen} />
