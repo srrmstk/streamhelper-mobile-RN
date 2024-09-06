@@ -1,12 +1,22 @@
 import axios, { AxiosInstance } from 'axios';
 import IAbstractClient from '../AbstractRepository/types';
 import { IAxiosConfig } from './types';
+import { ToastService } from '../../modules/Toast/toastService';
+import { ELocales } from '../../constants/locales';
 
 export class AxiosClient implements IAbstractClient {
   client: AxiosInstance;
+  private toastService: ToastService;
+
+  static readonly SUCCESS_CODES = [200, 201];
+  static readonly SERVER_ERROR_CODE = 500;
+  static readonly UN_AUTH = 401;
 
   constructor() {
     this.client = axios.create();
+    this.toastService = new ToastService();
+
+    this.setInterceptorResponse();
   }
 
   get = (config: IAxiosConfig) => {
@@ -31,5 +41,39 @@ export class AxiosClient implements IAbstractClient {
 
   clearAccessToken = () => {
     this.client.defaults.headers['Authorization'] = null;
+  };
+
+  private setInterceptorResponse = () => {
+    this.client.interceptors.response.use(
+      response => {
+        if (!AxiosClient.SUCCESS_CODES.includes(response.status)) {
+          this.toastService.showErrorToast({
+            title: response.data?.message || ELocales.somethingWentWrong,
+            description: ELocales.pleaseTryAgain,
+          });
+
+          return Promise.reject(response);
+        }
+
+        return response;
+      },
+      error => {
+        const status = error.response?.status;
+
+        if (status === AxiosClient.SERVER_ERROR_CODE) {
+          this.toastService.showErrorToast({
+            title: ELocales.serverError,
+            description: ELocales.pleaseTryAgain,
+          });
+        }
+
+        if (status === AxiosClient.UN_AUTH) {
+          // logout
+          return;
+        }
+
+        return Promise.reject(error);
+      },
+    );
   };
 }

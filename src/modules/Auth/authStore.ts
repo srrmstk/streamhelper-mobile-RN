@@ -2,10 +2,12 @@ import { AuthService } from './service/authService';
 import { LoadingModel } from '../../base/LoadingModel';
 import { TokenService } from './service/tokenService';
 import { action, makeAutoObservable } from 'mobx';
+import { ToastService } from '../Toast/toastService';
 
 export class AuthStore {
   private authService: AuthService;
   private tokenService: TokenService;
+  private toastService: ToastService;
 
   loadingModel = new LoadingModel();
   accessToken: string | null = null;
@@ -14,6 +16,7 @@ export class AuthStore {
     makeAutoObservable(this);
     this.authService = new AuthService();
     this.tokenService = new TokenService();
+    this.toastService = new ToastService();
   }
 
   auth = async (uri: string) => {
@@ -29,7 +32,7 @@ export class AuthStore {
 
       return true;
     } catch (e) {
-      console.warn(e);
+      this.toastService.showErrorToast({});
       return false;
     } finally {
       this.loadingModel.setIsLoading(false);
@@ -43,7 +46,7 @@ export class AuthStore {
       await this.authService.logout(this.accessToken || '');
       return true;
     } catch (e) {
-      console.warn(e);
+      this.toastService.showErrorToast({});
       return false;
     } finally {
       action(async () => {
@@ -69,7 +72,7 @@ export class AuthStore {
 
       return !!token.trim();
     } catch (e) {
-      console.warn(e);
+      this.toastService.showErrorToast({});
     }
   };
 }

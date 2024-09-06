@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { RootNavigator } from './src/navigation/Root';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native';
+import Toast from 'react-native-toast-message';
+import { ToastService } from './src/modules/Toast/toastService';
 
 const App = () => {
   return (
@@ -10,6 +12,7 @@ const App = () => {
       <NavigationContainer>
         <RootNavigator />
       </NavigationContainer>
+      <Toast config={ToastService.config} />
     </GestureHandlerRootView>
   );
 };
