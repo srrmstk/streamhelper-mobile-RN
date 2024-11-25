@@ -3,6 +3,7 @@ import axios, {
   InternalAxiosRequestConfig,
   AxiosRequestHeaders,
   AxiosError,
+  CreateAxiosDefaults,
 } from 'axios';
 import IAbstractClient from '../AbstractRepository/types';
 import { IAxiosConfig } from './types';
@@ -17,8 +18,8 @@ export class AxiosClient implements IAbstractClient {
   static readonly SERVER_ERROR_CODE = 500;
   static readonly UN_AUTH = 401;
 
-  constructor() {
-    this.client = axios.create();
+  constructor(props?: CreateAxiosDefaults<any>) {
+    this.client = axios.create(props);
     this.toastService = new ToastService();
 
     this.setInterceptorRequest();

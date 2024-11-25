@@ -1,12 +1,17 @@
 import AbstractRepository from '../../../base/AbstractRepository';
 import { NativeModules } from 'react-native';
 import { CONFIG } from '../../../constants/config';
+import TwitchAxios from '../client';
 
 const IntentModule = NativeModules.IntentModule;
 
 const { TWITCH_CLIENT_ID } = CONFIG;
 
-export class AuthRepository extends AbstractRepository {
+export class AuthRepository extends AbstractRepository<typeof TwitchAxios> {
+  constructor() {
+    super(TwitchAxios);
+  }
+
   auth = (uri: string): Promise<string> => {
     return IntentModule.openIntent(uri);
   };
