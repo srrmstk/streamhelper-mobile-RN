@@ -9,15 +9,5 @@ export default abstract class AbstractLocalClient
 
   abstract removeAll: (tableName: string) => Promise<any>;
 
-  update = async (tableName: string, data: any): Promise<any> => {
-    let res = await this.get(tableName);
-
-    if (res) {
-      for (let k in data) {
-        res[k] = data[k];
-      }
-    }
-
-    return await this.set(tableName, res);
-  };
+  abstract update: (tableName: string, data: any) => Promise<any>;
 }

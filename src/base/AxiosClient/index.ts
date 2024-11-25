@@ -1,4 +1,9 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, {
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+  AxiosRequestHeaders,
+  AxiosError,
+} from 'axios';
 import IAbstractClient from '../AbstractRepository/types';
 import { IAxiosConfig } from './types';
 import { ToastService } from '../../modules/Toast/toastService';
@@ -16,6 +21,7 @@ export class AxiosClient implements IAbstractClient {
     this.client = axios.create();
     this.toastService = new ToastService();
 
+    this.setInterceptorRequest();
     this.setInterceptorResponse();
   }
 
@@ -41,6 +47,24 @@ export class AxiosClient implements IAbstractClient {
 
   clearAccessToken = () => {
     this.client.defaults.headers['Authorization'] = null;
+  };
+
+  private setInterceptorRequest = () => {
+    this.client.interceptors.request.use(
+      async config => {
+        const newConfig: InternalAxiosRequestConfig = {
+          ...config,
+          headers: {
+            ...config.headers,
+          } as AxiosRequestHeaders,
+        };
+
+        return newConfig;
+      },
+      (error: AxiosError) => {
+        return Promise.reject(error);
+      },
+    );
   };
 
   private setInterceptorResponse = () => {

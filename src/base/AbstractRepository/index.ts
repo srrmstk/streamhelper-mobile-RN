@@ -1,17 +1,14 @@
 import IAbstractClient from './types';
 import { AxiosClient } from '../AxiosClient';
 
-export default abstract class AbstractRepository<
-  T extends IAbstractClient = AxiosClient,
-> {
-  client!: T;
+export default abstract class AbstractRepository {
+  client!: IAbstractClient;
 
-  constructor() {
-    // @ts-ignore
-    this.setClient(new AxiosClient());
+  constructor(client: IAbstractClient = new AxiosClient()) {
+    this.setClient(client);
   }
 
-  setClient = (client: T) => {
+  setClient = (client: IAbstractClient) => {
     this.client = client;
   };
 }
