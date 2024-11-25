@@ -1,7 +1,7 @@
 import { AuthRepository } from '../repository/authRepository';
 
 export class AuthService {
-  repository: AuthRepository;
+  private repository: AuthRepository;
   constructor() {
     this.repository = new AuthRepository();
   }

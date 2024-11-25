@@ -12,12 +12,24 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       rules: {
         curly: 2, // never omit curly braces around blocks
-        'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }], // class methods new line
+        'lines-between-class-members': [
+          'error',
+          'always',
+          { exceptAfterSingleLine: true },
+        ], // class methods new line
         'padding-line-between-statements': [
           'error',
-          { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] }, // vars new line
+          {
+            blankLine: 'any',
+            prev: ['const', 'let', 'var'],
+            next: ['const', 'let', 'var'],
+          }, // vars new line
           { blankLine: 'always', prev: '*', next: ['block-like', 'try'] }, // before try, throw, if, for etc... new line
-          { blankLine: 'always', prev: ['block-like', 'try'], next: ['return'] }, // before return after try, throw, if, for etc... new line
+          {
+            blankLine: 'always',
+            prev: ['block-like', 'try'],
+            next: ['return'],
+          }, // before return after try, throw, if, for etc... new line
         ],
         'default-param-last': 2,
         'max-classes-per-file': 2,
@@ -29,7 +41,7 @@ module.exports = {
         'no-case-declarations': 0,
         '@typescript-eslint/no-non-null-assertion': 0, //foo.property!.includes('baz');
         'no-useless-escape': 0, //let baz = /\:/
-        '@typescript-eslint/no-explicit-any': 0, //a:any
+        '@typescript-eslint/no-explicit-any': 2, //a:any
         '@typescript-eslint/no-inferrable-types': 0, //a: boolean = false
         '@typescript-eslint/no-non-null-asserted-optional-chain': 0, //foo?.bar!
         '@typescript-eslint/ban-ts-comment': 0, //@ts - ignore

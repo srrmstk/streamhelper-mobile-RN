@@ -14,6 +14,7 @@ export class AuthStore {
 
   constructor() {
     makeAutoObservable(this);
+
     this.authService = new AuthService();
     this.tokenService = new TokenService();
     this.toastService = new ToastService();

@@ -5,6 +5,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { ToastService } from './src/modules/Toast/toastService';
+import 'reflect-metadata';
 
 const App = () => {
   return (

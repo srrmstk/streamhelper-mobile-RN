@@ -7,6 +7,8 @@ export const getAuthUri = () => {
     'channel:manage:broadcast',
     'channel:manage:polls',
     'channel:manage:predictions',
+    'user:read:chat',
+    'user:write:chat',
   ];
 
   return `${TWITCH_AUTH_URL}?client_id=${TWITCH_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=${scopes.join(
