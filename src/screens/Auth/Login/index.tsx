@@ -10,7 +10,7 @@ import { RootRoutes } from '../../../navigation/Root/routes';
 export const LoginScreen = observer(() => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const { authStore } = useRootStore();
+  const { authStore, userStore } = useRootStore();
 
   const handleLogin = async () => {
     const uri = getAuthUri();
@@ -32,6 +32,7 @@ export const LoginScreen = observer(() => {
   return (
     <SafeAreaView>
       <Button title={'Auth'} onPress={handleLogin} />
+      <Button title={'Get User'} onPress={() => userStore.getUser()} />
     </SafeAreaView>
   );
 });
