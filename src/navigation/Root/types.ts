@@ -1,12 +1,12 @@
-import { RootRoutes } from './routes';
+import { ERootRoutes } from './routes';
 import { RouteProp } from '@react-navigation/native';
 
-export type RootStackParamList = {
-  [RootRoutes.Auth]: undefined;
-  [RootRoutes.Main]: undefined;
-  [RootRoutes.WebView]: {
+export type TRootNavigator = {
+  [ERootRoutes.Auth]: undefined;
+  [ERootRoutes.Main]: undefined;
+  [ERootRoutes.WebView]: {
     uri: string;
   };
 };
 
-export type WebViewRouteProps = RouteProp<RootStackParamList, RootRoutes.WebView>;
+export type WebViewRouteProps = RouteProp<TRootNavigator, ERootRoutes.WebView>;

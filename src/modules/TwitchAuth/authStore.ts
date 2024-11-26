@@ -53,8 +53,9 @@ export class AuthStore {
       action(async () => {
         await this.tokenService.deleteToken();
         this.accessToken = null;
-
         this.loadingModel.setIsLoading(false);
+
+        return true;
       });
     }
   };
@@ -74,6 +75,19 @@ export class AuthStore {
       return !!token.trim();
     } catch (e) {
       this.toastService.showErrorToast({});
+      return false;
+    }
+  };
+
+  validateToken = async () => {
+    this.loadingModel.setIsLoading(true);
+
+    try {
+      return await this.authService.validateToken();
+    } catch (e) {
+      return false;
+    } finally {
+      this.loadingModel.setIsLoading(false);
     }
   };
 }

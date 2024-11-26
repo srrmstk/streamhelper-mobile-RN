@@ -1,4 +1,4 @@
-export enum MainRoutes {
+export enum EMainRoutes {
   Chat = 'Chat',
   Alerts = 'Alerts',
   StreamInfo = 'StreamInfo',

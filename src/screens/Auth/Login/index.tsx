@@ -1,38 +1,38 @@
 import { SafeAreaView, Button } from 'react-native';
 import { observer } from 'mobx-react';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../../navigation/Root/types';
 import { getAuthUri } from './helpers';
 import { IS_IOS } from '../../../constants/platform';
 import { useRootStore } from '../../../hooks/useRootStore';
-import { RootRoutes } from '../../../navigation/Root/routes';
+import { ERootRoutes } from '../../../navigation/Root/routes';
+import { useAppNavigation } from '../../../hooks/useAppNavigation';
+import { EMainRoutes } from '../../../navigation/Main/routes';
 
 export const LoginScreen = observer(() => {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const navigation = useAppNavigation();
 
-  const { authStore, userStore } = useRootStore();
+  const { authStore } = useRootStore();
 
   const handleLogin = async () => {
     const uri = getAuthUri();
 
     if (IS_IOS) {
       // TODO: implement auth for iOS
-      navigation.navigate(RootRoutes.WebView, { uri });
+      navigation.navigate(ERootRoutes.WebView, { uri });
       return;
     }
 
     const result = await authStore.auth(uri);
 
     if (result) {
-      // TODO: navigate to main app
-      return;
+      navigation.replace(ERootRoutes.Main, {
+        screen: EMainRoutes.Chat,
+      });
     }
   };
 
   return (
     <SafeAreaView>
       <Button title={'Auth'} onPress={handleLogin} />
-      <Button title={'Get User'} onPress={() => userStore.getUser()} />
     </SafeAreaView>
   );
 });

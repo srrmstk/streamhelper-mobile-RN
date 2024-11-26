@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { RootNavigator } from './src/navigation/Root';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native';
@@ -10,9 +9,7 @@ import 'reflect-metadata';
 const App = () => {
   return (
     <GestureHandlerRootView style={styles.gestureHandler}>
-      <NavigationContainer>
-        <RootNavigator />
-      </NavigationContainer>
+      <RootNavigator />
       <Toast config={ToastService.config} />
     </GestureHandlerRootView>
   );
