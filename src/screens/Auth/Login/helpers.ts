@@ -1,4 +1,4 @@
-import { CONFIG } from '../../../constants/config';
+import { CONFIG } from 'constants/config';
 
 const { TWITCH_CLIENT_ID, TWITCH_AUTH_URL, REDIRECT_URI } = CONFIG;
 
