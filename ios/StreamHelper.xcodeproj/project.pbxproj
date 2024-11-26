@@ -15,6 +15,8 @@
 		768A2BB2CD0ED0DD29623BE3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 238BA6773D75D3DB8468B5F5 /* PrivacyInfo.xcprivacy */; };
 		7699B88040F8A987B510C191 /* libPods-StreamHelper-StreamHelperTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-StreamHelper-StreamHelperTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		040A8C483E08428FBE608D36 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A15708101DA4D1682A0A29D /* BootSplash.storyboard */; };
+		F5BAEB946A9F488AA280B3BC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 354CC5758F9948E5A5C31E90 /* Colors.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = StreamHelper/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-StreamHelper-StreamHelperTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StreamHelper-StreamHelperTests.release.xcconfig"; path = "Target Support Files/Pods-StreamHelper-StreamHelperTests/Pods-StreamHelper-StreamHelperTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		8A15708101DA4D1682A0A29D /* BootSplash.storyboard */ = {isa = PBXFileReference; name = "BootSplash.storyboard"; path = "StreamHelper/BootSplash.storyboard"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		354CC5758F9948E5A5C31E90 /* Colors.xcassets */ = {isa = PBXFileReference; name = "Colors.xcassets"; path = "StreamHelper/Colors.xcassets"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = folder.assetcatalog; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +101,8 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				238BA6773D75D3DB8468B5F5 /* PrivacyInfo.xcprivacy */,
+				8A15708101DA4D1682A0A29D /* BootSplash.storyboard */,
+				354CC5758F9948E5A5C31E90 /* Colors.xcassets */,
 			);
 			name = StreamHelper;
 			sourceTree = "<group>";
@@ -249,6 +255,8 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				768A2BB2CD0ED0DD29623BE3 /* PrivacyInfo.xcprivacy in Resources */,
+				040A8C483E08428FBE608D36 /* BootSplash.storyboard in Resources */,
+				F5BAEB946A9F488AA280B3BC /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
