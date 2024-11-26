@@ -1,9 +1,9 @@
-import { Button, SafeAreaView } from 'react-native';
-
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 
 import { getAuthUri } from './helpers';
+import { Container, Title } from './styled';
+import { AppButton } from '../../../components/AppButton';
 import { IS_IOS } from '../../../constants/platform';
 import { useAppNavigation } from '../../../hooks/useAppNavigation';
 import { useRootStore } from '../../../hooks/useRootStore';
@@ -35,8 +35,9 @@ export const LoginScreen = observer(() => {
   };
 
   return (
-    <SafeAreaView>
-      <Button title={t('login')} onPress={handleLogin} />
-    </SafeAreaView>
+    <Container>
+      <Title>{t('app_title')}</Title>
+      <AppButton title={t('login')} onPress={handleLogin} />
+    </Container>
   );
 });

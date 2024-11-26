@@ -1,7 +1,8 @@
-import { AuthService } from './service/authService';
-import { LoadingModel } from '../../base/LoadingModel';
-import { TokenService } from './service/tokenService';
+import { LoadingModel } from 'base/LoadingModel';
 import { action, makeAutoObservable } from 'mobx';
+
+import { AuthService } from './service/authService';
+import { TokenService } from './service/tokenService';
 import { ToastService } from '../Toast/toastService';
 
 export class AuthStore {
@@ -74,7 +75,6 @@ export class AuthStore {
 
       return !!token.trim();
     } catch (e) {
-      this.toastService.showErrorToast({});
       return false;
     }
   };

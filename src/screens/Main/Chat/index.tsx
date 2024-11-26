@@ -1,8 +1,8 @@
-import { Button, Text, View } from 'react-native';
-
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 
+import { Container } from './styled';
+import { AppButton } from '../../../components/AppButton';
 import { useAppNavigation } from '../../../hooks/useAppNavigation';
 import { useRootStore } from '../../../hooks/useRootStore';
 import { EAuthRoutes } from '../../../navigation/Auth/routes';
@@ -24,9 +24,8 @@ export const ChatScreen = observer(() => {
   };
 
   return (
-    <View>
-      <Text>This is Chat screen</Text>
-      <Button title={t('logout')} onPress={handleLogout} />
-    </View>
+    <Container>
+      <AppButton title={t('logout')} onPress={handleLogout} />
+    </Container>
   );
 });

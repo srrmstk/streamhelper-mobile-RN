@@ -1,6 +1,7 @@
 {
   "translation": {
     "test": "Тест",
+    "app_title": "Stream Helper",
     "logout": "Выйти из аккаунта",
     "login": "Войти с помощью Twitch"
   }

@@ -40,7 +40,7 @@ class MainActivity : ReactActivity() {
   private fun handleIntent(intent: Intent?) {
     if (intent != null && intent.action == Intent.ACTION_VIEW) {
       val uri: Uri? = intent.data
-      if (uri != null && uri.scheme == "https" && uri.host == "streamhelpermobile") {
+      if (uri != null && uri.scheme == "https" && uri.host == "streamhelpermobile.com") {
         IntentModule.promise?.resolve(uri.toString())
       } else {
         IntentModule.promise?.reject("", "Uri is null or not related to Twitch")
