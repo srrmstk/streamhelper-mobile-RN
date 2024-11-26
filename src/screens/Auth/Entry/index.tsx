@@ -1,11 +1,14 @@
-import { observer } from 'mobx-react';
-import { ActivityIndicator } from 'react-native';
-import { useRootStore } from '../../../hooks/useRootStore';
 import { useEffect } from 'react';
+import { ActivityIndicator } from 'react-native';
+
+import { observer } from 'mobx-react';
+import BootSplash from 'react-native-bootsplash';
+
+import { Container } from './styles';
 import { useAppNavigation } from '../../../hooks/useAppNavigation';
+import { useRootStore } from '../../../hooks/useRootStore';
 import { EAuthRoutes } from '../../../navigation/Auth/routes';
 import { EMainRoutes } from '../../../navigation/Main/routes';
-import { Container } from './styles';
 import { ERootRoutes } from '../../../navigation/Root/routes';
 
 export const EntryScreen = observer(() => {
@@ -33,7 +36,9 @@ export const EntryScreen = observer(() => {
       });
     };
 
-    checkAuth();
+    checkAuth().finally(async () => {
+      await BootSplash.hide({ fade: true });
+    });
   }, []);
 
   return (

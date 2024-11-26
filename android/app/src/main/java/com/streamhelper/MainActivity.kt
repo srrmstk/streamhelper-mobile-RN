@@ -8,6 +8,7 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnable
 import com.facebook.react.defaults.DefaultReactActivityDelegate
 import android.os.Bundle;
 import android.util.Log
+import com.zoontek.rnbootsplash.RNBootSplash
 
 class MainActivity : ReactActivity() {
 
@@ -26,7 +27,8 @@ class MainActivity : ReactActivity() {
 
   // required by react-native-screens
   override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(null)
+    RNBootSplash.init(this, R.style.BootTheme) // ⬅️ initialize the splash screen
+    super.onCreate(savedInstanceState) // super.onCreate(null) with react-native-screens
   }
 
   // catch Twitch access token
