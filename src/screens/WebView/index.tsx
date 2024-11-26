@@ -1,7 +1,9 @@
-import WebView from 'react-native-webview';
-import { useRoute } from '@react-navigation/native';
-import { WebViewRouteProps } from '../../navigation/Root/types';
 import { StyleSheet } from 'react-native';
+
+import { useRoute } from '@react-navigation/native';
+import WebView from 'react-native-webview';
+
+import { WebViewRouteProps } from '../../navigation/Root/types';
 
 export const WebViewScreen = () => {
   const { params } = useRoute<WebViewRouteProps>();
