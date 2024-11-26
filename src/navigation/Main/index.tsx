@@ -9,7 +9,7 @@ import { TMainNavigator } from './types';
 const Tab = createBottomTabNavigator<TMainNavigator>();
 
 export const MainNavigator: React.FC = () => (
-  <Tab.Navigator>
+  <Tab.Navigator screenOptions={{ headerShown: false }}>
     <Tab.Screen name={EMainRoutes.Chat} component={ChatScreen} />
     <Tab.Screen name={EMainRoutes.Alerts} component={AlertScreen} />
     <Tab.Screen name={EMainRoutes.StreamInfo} component={StreamInfoScreen} />
