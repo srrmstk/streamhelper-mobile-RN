@@ -1,14 +1,18 @@
-import { SafeAreaView, Button } from 'react-native';
+import { Button, SafeAreaView } from 'react-native';
+
 import { observer } from 'mobx-react';
+import { useTranslation } from 'react-i18next';
+
 import { getAuthUri } from './helpers';
 import { IS_IOS } from '../../../constants/platform';
-import { useRootStore } from '../../../hooks/useRootStore';
-import { ERootRoutes } from '../../../navigation/Root/routes';
 import { useAppNavigation } from '../../../hooks/useAppNavigation';
+import { useRootStore } from '../../../hooks/useRootStore';
 import { EMainRoutes } from '../../../navigation/Main/routes';
+import { ERootRoutes } from '../../../navigation/Root/routes';
 
 export const LoginScreen = observer(() => {
   const navigation = useAppNavigation();
+  const { t } = useTranslation();
 
   const { authStore } = useRootStore();
 
@@ -32,7 +36,7 @@ export const LoginScreen = observer(() => {
 
   return (
     <SafeAreaView>
-      <Button title={'Auth'} onPress={handleLogin} />
+      <Button title={t('login')} onPress={handleLogin} />
     </SafeAreaView>
   );
 });

@@ -1,11 +1,15 @@
-import { View, Text, Button } from 'react-native';
+import { Button, Text, View } from 'react-native';
+
 import { observer } from 'mobx-react';
-import { useRootStore } from '../../../hooks/useRootStore';
+import { useTranslation } from 'react-i18next';
+
 import { useAppNavigation } from '../../../hooks/useAppNavigation';
-import { ERootRoutes } from '../../../navigation/Root/routes';
+import { useRootStore } from '../../../hooks/useRootStore';
 import { EAuthRoutes } from '../../../navigation/Auth/routes';
+import { ERootRoutes } from '../../../navigation/Root/routes';
 
 export const ChatScreen = observer(() => {
+  const { t } = useTranslation();
   const { authStore } = useRootStore();
   const navigation = useAppNavigation();
 
@@ -22,7 +26,7 @@ export const ChatScreen = observer(() => {
   return (
     <View>
       <Text>This is Chat screen</Text>
-      <Button title={'Logout'} onPress={handleLogout} />
+      <Button title={t('logout')} onPress={handleLogout} />
     </View>
   );
 });
