@@ -21,4 +21,10 @@ export class AuthRepository extends AbstractRepository<typeof TwitchAxios> {
       url: `https://id.twitch.tv/oauth2/revoke?client_id=${TWITCH_CLIENT_ID}&token=${token}`,
     });
   };
+
+  validateToken = () => {
+    return this.client.get({
+      url: 'https://id.twitch.tv/oauth2/validate',
+    });
+  };
 }

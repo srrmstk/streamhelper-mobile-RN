@@ -14,4 +14,9 @@ export class AuthService {
   logout = async (token: string) => {
     return await this.repository.logout(token);
   };
+
+  validateToken = async () => {
+    const { data } = await this.repository.validateToken();
+    return data;
+  };
 }
