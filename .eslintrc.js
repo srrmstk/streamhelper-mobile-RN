@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'unused-imports'],
+  plugins: ['@typescript-eslint', 'unused-imports', 'import'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -54,6 +54,38 @@ module.exports = {
         'unused-imports/no-unused-imports': 2,
         'prefer-const': 0,
         '@typescript-eslint/no-empty-function': 0,
+        'sort-imports': [
+          'error',
+          { ignoreCase: true, ignoreDeclarationSort: true },
+        ],
+        'import/order': [
+          'error',
+          {
+            groups: [
+              ['external', 'builtin'],
+              'internal',
+              ['sibling', 'parent'],
+              'index',
+            ],
+            pathGroups: [
+              {
+                pattern: '@(react|react-native)',
+                group: 'external',
+                position: 'before',
+              },
+              {
+                pattern: '@src/**',
+                group: 'internal',
+              },
+            ],
+            pathGroupsExcludedImportTypes: ['internal', 'react'],
+            'newlines-between': 'always',
+            alphabetize: {
+              order: 'asc',
+              caseInsensitive: true,
+            },
+          },
+        ],
       },
     },
   ],
