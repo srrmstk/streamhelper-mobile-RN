@@ -6,6 +6,7 @@ import ru from './ru';
 
 i18n.use(initReactI18next).init({
   resources: { en, ru },
+  // @TODO: define based on system locale
   lng: 'en',
   fallbackLng: 'en',
   compatibilityJSON: 'v3',

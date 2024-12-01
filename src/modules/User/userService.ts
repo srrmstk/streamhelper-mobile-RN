@@ -1,6 +1,7 @@
-import { UserRepository } from './userRepository';
-import { ModelFactory } from '../../base/ModelFactory';
+import { ModelFactory } from 'base/ModelFactory';
+
 import { UserModel } from './models/userModel';
+import { UserRepository } from './userRepository';
 
 export class UserService {
   protected repository: UserRepository;
