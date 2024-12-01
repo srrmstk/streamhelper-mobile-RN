@@ -4,6 +4,7 @@ import { CONFIG } from 'constants/config';
 import { makeAutoObservable } from 'mobx';
 import { ChatService } from 'modules/Chat/chatService';
 import { CreateSubscriptionDto } from 'modules/Chat/dto/createSubscriptionDto';
+import { ChatMessage } from 'modules/Chat/models/chatMessage';
 
 const { TWITCH_WS_URL } = CONFIG;
 
@@ -11,6 +12,7 @@ export class ChatStore {
   private service: ChatService;
   loadingModel: LoadingModel;
   ws: WebSocket | null = null;
+  messages: ChatMessage[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -30,10 +32,23 @@ export class ChatStore {
 
     try {
       await this.service.createSubscription(dto);
-    } catch (e) {
-      console.log({ e });
     } finally {
       this.loadingModel.setIsLoading(false);
     }
+  };
+
+  addMessage = (user: string, message: string, id: string, color: string) => {
+    const newMessage = this.service.createChatMessageModel(
+      user,
+      message,
+      id,
+      color,
+    );
+    const newMessages = [...this.messages, newMessage];
+    this.setMessages(newMessages);
+  };
+
+  setMessages = (newMessages: ChatMessage[]) => {
+    this.messages = newMessages;
   };
 }

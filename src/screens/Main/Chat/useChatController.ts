@@ -20,23 +20,9 @@ export const useChatController = () => {
 
     ws.onmessage = e => {
       const data = JSON.parse(e.data);
-      console.log(data);
-
-      const sessionId = data?.payload?.session?.id;
-
-      if (sessionId && userStore.user?.id) {
-        chatStore.createSubscription(userStore.user.id, sessionId);
-      }
+      handleMessage(data);
     };
-
-    ws.onerror = e => {
-      console.log('WS ERROR: ', e.message);
-    };
-
-    ws.onclose = e => {
-      console.log('WS CLOSED ', e.code, e.reason);
-    };
-  }, [chatStore.ws]);
+  }, []);
 
   const handleLogout = async () => {
     const isLoggedOut = await authStore.logout();
@@ -48,8 +34,35 @@ export const useChatController = () => {
     }
   };
 
+  // @TODO: add types for twitch messages
+  // eslint-disable-next-line
+  const handleMessage = (data: any) => {
+    const messageType = data?.metadata?.message_type;
+
+    if (messageType === 'session_welcome') {
+      const sessionId = data?.payload?.session?.id;
+
+      if (sessionId && userStore.user?.id) {
+        chatStore.createSubscription(userStore.user.id, sessionId);
+      }
+
+      return;
+    }
+
+    if (messageType === 'notification') {
+      const payload = data?.payload?.event;
+      chatStore.addMessage(
+        payload?.chatter_user_name,
+        payload?.message?.text,
+        payload?.message_id,
+        payload?.color,
+      );
+    }
+  };
+
   return {
     isLoading: chatStore.loadingModel.isLoading,
     handleLogout,
+    messages: chatStore.messages,
   };
 };
