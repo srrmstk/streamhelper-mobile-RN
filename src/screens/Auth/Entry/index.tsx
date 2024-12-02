@@ -12,7 +12,7 @@ import { EMainRoutes } from '../../../navigation/Main/routes';
 import { ERootRoutes } from '../../../navigation/Root/routes';
 
 export const EntryScreen = observer(() => {
-  const { authStore } = useRootStore();
+  const { authStore, userStore } = useRootStore();
   const navigation = useAppNavigation();
 
   useEffect(() => {
@@ -31,9 +31,13 @@ export const EntryScreen = observer(() => {
         return;
       }
 
-      navigation.replace(ERootRoutes.Main, {
-        screen: EMainRoutes.Chat,
-      });
+      const isUserReceived = await userStore.getUser();
+
+      if (isUserReceived) {
+        navigation.replace(ERootRoutes.Main, {
+          screen: EMainRoutes.Chat,
+        });
+      }
     };
 
     checkAuth().finally(async () => {

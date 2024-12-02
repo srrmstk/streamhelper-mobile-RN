@@ -1,31 +1,40 @@
+import { useCallback } from 'react';
+import { ActivityIndicator, FlatList } from 'react-native';
+
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 
-import { Container } from './styled';
+import { Author, Container, Message, MessageContainer } from './styled';
+import { useChatController } from './useChatController';
 import { AppButton } from '../../../components/AppButton';
-import { useAppNavigation } from '../../../hooks/useAppNavigation';
-import { useRootStore } from '../../../hooks/useRootStore';
-import { EAuthRoutes } from '../../../navigation/Auth/routes';
-import { ERootRoutes } from '../../../navigation/Root/routes';
+import { ChatMessage } from '../../../modules/Chat/models/chatMessage';
 
 export const ChatScreen = observer(() => {
   const { t } = useTranslation();
-  const { authStore } = useRootStore();
-  const navigation = useAppNavigation();
+  const { isLoading, handleLogout, messages } = useChatController();
 
-  const handleLogout = async () => {
-    const isLoggedOut = await authStore.logout();
-
-    if (isLoggedOut) {
-      navigation.replace(ERootRoutes.Auth, {
-        screen: EAuthRoutes.Entry,
-      });
-    }
-  };
+  const renderMessage = useCallback(
+    ({ item }) => (
+      <MessageContainer>
+        <Author color={item.color}>{item.author}</Author>
+        <Message>{item.message}</Message>
+      </MessageContainer>
+    ),
+    [],
+  );
 
   return (
     <Container>
       <AppButton title={t('logout')} onPress={handleLogout} />
+      {isLoading ? (
+        <ActivityIndicator size={'large'} />
+      ) : (
+        <FlatList<ChatMessage>
+          keyExtractor={item => item.id}
+          data={messages}
+          renderItem={renderMessage}
+        />
+      )}
     </Container>
   );
 });
