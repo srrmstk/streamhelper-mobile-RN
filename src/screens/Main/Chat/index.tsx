@@ -3,25 +3,29 @@ import { ActivityIndicator, FlatList } from 'react-native';
 
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
+import RenderHtml from 'react-native-render-html';
 
-import { Author, Container, Message, MessageContainer } from './styled';
+import { Container } from './styled';
 import { useChatController } from './useChatController';
 import { AppButton } from '../../../components/AppButton';
 import { ChatMessage } from '../../../modules/Chat/models/chatMessage';
-
 export const ChatScreen = observer(() => {
   const { t } = useTranslation();
-  const { isLoading, handleLogout, messages } = useChatController();
+  const { isLoading, handleLogout, messages, width, formatChatMessage } =
+    useChatController();
 
-  const renderMessage = useCallback(
-    ({ item }) => (
-      <MessageContainer>
-        <Author color={item.color}>{item.author}</Author>
-        <Message>{item.message}</Message>
-      </MessageContainer>
-    ),
-    [],
-  );
+  const renderMessage = useCallback(({ item }) => {
+    const messageHtml = formatChatMessage(item);
+
+    return (
+      <RenderHtml
+        contentWidth={width}
+        source={{
+          html: messageHtml,
+        }}
+      />
+    );
+  }, []);
 
   return (
     <Container>
