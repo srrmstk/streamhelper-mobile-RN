@@ -17,7 +17,7 @@ export class EmojiStore {
     this.setSevenTvUserSet(emojiList);
   };
 
-  private setSevenTvUserSet = (emojiList: { [key: string]: string }) => {
+  private setSevenTvUserSet = (emojiList: EmojiSet) => {
     this.sevenTvUserSet = emojiList;
   };
 }

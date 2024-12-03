@@ -113,6 +113,11 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    // animated WebP
+    implementation 'com.facebook.fresco:fresco:2.0.0'
+    implementation 'com.facebook.fresco:animated-webp:+'
+    implementation 'com.facebook.fresco:webpsupport:+'
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

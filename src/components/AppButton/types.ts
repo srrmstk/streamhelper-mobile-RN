@@ -1,5 +1,5 @@
-import { PressableProps } from 'react-native';
+import { TouchableOpacityProps } from 'react-native';
 
 export type TAppButtonProps = {
   title?: string;
-} & Omit<PressableProps, 'children'>;
+} & Omit<TouchableOpacityProps, 'children'>;

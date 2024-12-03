@@ -1,4 +1,6 @@
+import { ModelFactory } from 'base/ModelFactory';
 import { EmojiRepository } from 'modules/Emoji/emojiRepository';
+import { Emoji } from 'modules/Emoji/models/emoji';
 import { EmojiSet } from 'modules/Emoji/types/emojiSet';
 
 export class EmojiService {
@@ -15,7 +17,15 @@ export class EmojiService {
 
     for (let emote of data.emote_set.emotes) {
       const host = emote.data.host;
-      emojiSet[emote.name] = `https:${host.url}/${host.files[0].name}`;
+      const file = host.files[0];
+
+      const emoji = ModelFactory.create(Emoji, {
+        url: `https:${host.url}/${file.name}`,
+        height: file.height,
+        width: file.width,
+      });
+
+      emojiSet[emote.name] = emoji;
     }
 
     return emojiSet;

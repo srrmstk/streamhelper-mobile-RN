@@ -1,6 +1,5 @@
 import styled from 'styled-components/native';
-
-import { EColors } from '../../theme/colors';
+import { EColors } from 'theme/colors';
 
 export const PressableContainer = styled.TouchableOpacity`
   border-radius: 8px;

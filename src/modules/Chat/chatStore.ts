@@ -12,6 +12,7 @@ export class ChatStore {
   private service: ChatService;
   loadingModel: LoadingModel;
   ws: WebSocket | null = null;
+  isInitialized: boolean = false;
   messages: ChatMessage[] = [];
 
   constructor() {
@@ -23,6 +24,10 @@ export class ChatStore {
 
   initWs = () => {
     this.ws = new WebSocket(`${TWITCH_WS_URL}?keepalive_timeout_seconds=30`);
+  };
+
+  deinitWs = () => {
+    this.ws = null;
   };
 
   createSubscription = async (userId: string, sessionId: string) => {
@@ -50,5 +55,9 @@ export class ChatStore {
 
   setMessages = (newMessages: ChatMessage[]) => {
     this.messages = newMessages;
+  };
+
+  setIsInitialized = (value: boolean) => {
+    this.isInitialized = value;
   };
 }

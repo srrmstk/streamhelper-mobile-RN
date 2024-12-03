@@ -1,19 +1,22 @@
 import { useEffect } from 'react';
-import { useWindowDimensions } from 'react-native';
 
+import { AppText } from 'components';
 import { useAppNavigation } from 'hooks/useAppNavigation';
 import { useRootStore } from 'hooks/useRootStore';
 import { ChatMessage } from 'modules/Chat/models/chatMessage';
 import { EAuthRoutes } from 'navigation/Auth/routes';
 import { ERootRoutes } from 'navigation/Root/routes';
 
+import { Emoji, Message } from './styled';
+
 export const useChatController = () => {
-  const { width } = useWindowDimensions();
   const { authStore, userStore, chatStore, emojiStore } = useRootStore();
   const navigation = useAppNavigation();
 
   useEffect(() => {
-    chatStore.initWs();
+    if (!chatStore.isInitialized) {
+      chatStore.initWs();
+    }
 
     const ws = chatStore.ws;
 
@@ -21,13 +24,18 @@ export const useChatController = () => {
       return;
     }
 
-    // ws.onopen = () => {
-    //   load7Tv();
-    // };
+    ws.onopen = () => {
+      chatStore.setIsInitialized(true);
+    };
 
     ws.onmessage = e => {
       const data = JSON.parse(e.data);
       handleMessage(data);
+    };
+
+    ws.onclose = () => {
+      chatStore.setIsInitialized(false);
+      chatStore.deinitWs();
     };
   }, []);
 
@@ -68,32 +76,58 @@ export const useChatController = () => {
   };
 
   const formatChatMessage = (chatMessage: ChatMessage) => {
-    let formattedMessage: string = `
-      <div style="flex-direction: row">
-        <p style="color: ${chatMessage.color}; margin-right: 8px">${chatMessage.author}</p>
-        <p style="flex-direction: row; align-items: center">${chatMessage.message}</p>
-      </div>
-    `;
+    const pushTextComponent = () => {
+      components.push(
+        <AppText key={`text_${new Date().getMilliseconds()}`}>
+          {messageString}
+        </AppText>,
+      );
+      messageString = '';
+    };
+
+    const components = [];
 
     const words = chatMessage.message?.split(' ');
 
+    let messageString = '';
+
     if (!words) {
-      return;
+      return null;
     }
 
     for (let word of words) {
-      const formattedWords: string[] = [];
+      const emoji = emojiStore.sevenTvUserSet[word];
 
-      if (emojiStore.sevenTvUserSet[word] && !formattedWords.includes(word)) {
-        formattedMessage = formattedMessage.replace(
-          word,
-          `<img style="margin-left: 2px; margin-right: 2px" src="${emojiStore.sevenTvUserSet[word]}" alt="${word}"/>`,
+      if (emoji) {
+        if (messageString.trim().length) {
+          pushTextComponent();
+        }
+
+        components.push(
+          <Emoji
+            key={`emoji_${new Date().getMilliseconds()}`}
+            height={emoji.height ?? 0}
+            width={emoji.width ?? 0}
+            animatedSource={{
+              uri: emoji.url ?? '',
+            }}
+            thumbnailSource={{
+              uri: emoji.url ?? '',
+            }}
+            autoplay={true}
+            loop={true}
+          />,
         );
-        formattedWords.push(word);
+      } else {
+        messageString += `${word} `;
+      }
+
+      if (word === words[words.length - 1] && messageString.trim().length) {
+        pushTextComponent();
       }
     }
 
-    return formattedMessage;
+    return <Message>{components}</Message>;
   };
 
   return {
@@ -101,6 +135,6 @@ export const useChatController = () => {
     handleLogout,
     formatChatMessage,
     messages: chatStore.messages,
-    width: width - 32,
+    isChatReady: chatStore.isInitialized,
   };
 };
