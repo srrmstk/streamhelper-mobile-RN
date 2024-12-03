@@ -19,15 +19,45 @@ export class EmojiService {
       const host = emote.data.host;
       const file = host.files[0];
 
-      const emoji = ModelFactory.create(Emoji, {
-        url: `https:${host.url}/${file.name}`,
-        height: file.height,
-        width: file.width,
-      });
+      const emoji = this.makeEmojiModel(
+        `https:${host.url}/${file.name}`,
+        file.height,
+        file.width,
+      );
 
       emojiSet[emote.name] = emoji;
     }
 
     return emojiSet;
+  };
+
+  getTwitchGlobalEmojiSet = async () => {
+    const { data } = await this.repository.getTwitchGlobalEmojiSet();
+    const emojiSet: EmojiSet = {};
+
+    const template = data.template;
+
+    for (let emote of data.data) {
+      const id = emote.id;
+      const format = emote.format.includes('animated') ? 'animated' : 'static';
+      const url = template
+        .replace('{{id}}', id)
+        .replace('{{format}}', format)
+        .replace('{{theme_mode}}', 'light')
+        .replace('{{scale}}', '1.0');
+
+      const emoji = this.makeEmojiModel(url, 32, 32);
+      emojiSet[emote.name] = emoji;
+    }
+
+    return emojiSet;
+  };
+
+  private makeEmojiModel = (url: string, height: number, width: number) => {
+    return ModelFactory.create(Emoji, {
+      url,
+      height,
+      width,
+    });
   };
 }

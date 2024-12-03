@@ -29,7 +29,7 @@ export const ChatScreen = observer(() => {
 
   const renderContent = () => {
     return !isChatReady ? (
-      <AppText>No content</AppText>
+      <AppText>{t('cannotConnect')}</AppText>
     ) : (
       <FlatList<ChatMessage>
         keyExtractor={item => `${item.id}`}

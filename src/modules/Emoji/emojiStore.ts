@@ -6,6 +6,7 @@ export class EmojiStore {
   private service: EmojiService;
 
   sevenTvUserSet: EmojiSet = {};
+  twitchSet: EmojiSet = {};
 
   constructor() {
     makeAutoObservable(this);
@@ -17,7 +18,16 @@ export class EmojiStore {
     this.setSevenTvUserSet(emojiList);
   };
 
+  getTwitchGlobalSet = async () => {
+    const emojiList = await this.service.getTwitchGlobalEmojiSet();
+    this.setTwitchGlobalSet(emojiList);
+  };
+
   private setSevenTvUserSet = (emojiList: EmojiSet) => {
     this.sevenTvUserSet = emojiList;
+  };
+
+  private setTwitchGlobalSet = (emojiList: EmojiSet) => {
+    this.twitchSet = emojiList;
   };
 }

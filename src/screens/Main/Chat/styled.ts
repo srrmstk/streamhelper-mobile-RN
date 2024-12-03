@@ -1,5 +1,6 @@
 import { AppText, ScreenContainer } from 'components';
 import AnimatedWebP from 'react-native-animated-webp';
+import FastImage from 'react-native-fast-image';
 import styled from 'styled-components/native';
 import { EColors } from 'theme/colors';
 
@@ -30,7 +31,17 @@ export const Message = styled.View`
   flex-wrap: wrap;
 `;
 
-export const Emoji = styled(AnimatedWebP)<{ height: number; width: number }>`
+export const SevenTvEmoji = styled(AnimatedWebP)<{
+  height: number;
+  width: number;
+}>`
+  width: ${({ width }) => width}px;
+  height: ${({ height }) => height}px;
+  margin-left: 2px;
+  margin-right: 2px;
+`;
+
+export const TwitchEmoji = styled(FastImage)<{ height: number; width: number }>`
   width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;
   margin-left: 2px;
