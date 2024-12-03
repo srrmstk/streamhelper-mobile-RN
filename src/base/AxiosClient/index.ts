@@ -1,14 +1,15 @@
 import axios, {
-  AxiosInstance,
-  InternalAxiosRequestConfig,
-  AxiosRequestHeaders,
   AxiosError,
+  AxiosInstance,
+  AxiosRequestHeaders,
   CreateAxiosDefaults,
+  InternalAxiosRequestConfig,
 } from 'axios';
-import IAbstractClient from '../AbstractRepository/types';
+import i18next from 'i18next';
+import { ToastService } from 'modules/Toast/toastService';
+
 import { IAxiosConfig } from './types';
-import { ToastService } from '../../modules/Toast/toastService';
-import { ELocales } from '../../constants/locales';
+import IAbstractClient from '../AbstractRepository/types';
 
 export class AxiosClient implements IAbstractClient {
   client: AxiosInstance;
@@ -18,6 +19,7 @@ export class AxiosClient implements IAbstractClient {
   static readonly SERVER_ERROR_CODE = 500;
   static readonly UN_AUTH = 401;
 
+  // eslint-disable-next-line
   constructor(props?: CreateAxiosDefaults<any>) {
     this.client = axios.create(props);
     this.toastService = new ToastService();
@@ -73,8 +75,8 @@ export class AxiosClient implements IAbstractClient {
       response => {
         if (!AxiosClient.SUCCESS_CODES.includes(response.status)) {
           this.toastService.showErrorToast({
-            title: response.data?.message || ELocales.somethingWentWrong,
-            description: ELocales.pleaseTryAgain,
+            title: response.data?.message || i18next.t('somethingWentWrong'),
+            description: i18next.t('pleaseTryAgain'),
           });
 
           return Promise.reject(response);
@@ -87,8 +89,8 @@ export class AxiosClient implements IAbstractClient {
 
         if (status === AxiosClient.SERVER_ERROR_CODE) {
           this.toastService.showErrorToast({
-            title: ELocales.serverError,
-            description: ELocales.pleaseTryAgain,
+            title: i18next.t('serverError'),
+            description: i18next.t('pleaseTryAgain'),
           });
         }
 
