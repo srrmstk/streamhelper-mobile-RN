@@ -1,5 +1,5 @@
-import { AxiosClient } from '../../../base/AxiosClient';
-import { CONFIG } from '../../../constants/config';
+import { AxiosClient } from 'base/AxiosClient';
+import { CONFIG } from 'constants/config';
 
 const { TWITCH_CLIENT_ID } = CONFIG;
 

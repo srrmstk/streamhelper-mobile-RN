@@ -35,6 +35,7 @@ export const EntryScreen = observer(() => {
 
       if (isUserReceived) {
         emojiStore.getSevenTvUserEmojiSet(userStore.user?.id ?? '');
+        emojiStore.getTwitchGlobalSet();
         navigation.replace(ERootRoutes.Main, {
           screen: EMainRoutes.Chat,
         });

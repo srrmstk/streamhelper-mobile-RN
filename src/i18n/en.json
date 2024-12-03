@@ -8,6 +8,7 @@
     "error": "Error",
     "appTitle": "Stream Helper",
     "logout": "Logout",
-    "login": "Log In via Twitch"
+    "login": "Log In via Twitch",
+    "cannotConnect": "Can't connect"
   }
 }

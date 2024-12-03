@@ -7,7 +7,7 @@ import { ChatMessage } from 'modules/Chat/models/chatMessage';
 import { EAuthRoutes } from 'navigation/Auth/routes';
 import { ERootRoutes } from 'navigation/Root/routes';
 
-import { Emoji, Message } from './styled';
+import { Message, SevenTvEmoji, TwitchEmoji } from './styled';
 
 export const useChatController = () => {
   const { authStore, userStore, chatStore, emojiStore } = useRootStore();
@@ -75,10 +75,11 @@ export const useChatController = () => {
     }
   };
 
+  // @TODO: somehow deal with keys
   const formatChatMessage = (chatMessage: ChatMessage) => {
     const pushTextComponent = () => {
       components.push(
-        <AppText key={`text_${new Date().getMilliseconds()}`}>
+        <AppText key={`text_${new Date().getUTCMilliseconds()}`}>
           {messageString}
         </AppText>,
       );
@@ -96,28 +97,45 @@ export const useChatController = () => {
     }
 
     for (let word of words) {
-      const emoji = emojiStore.sevenTvUserSet[word];
+      const sevenTvEmoji = emojiStore.sevenTvUserSet[word];
+      const twitchEmoji = emojiStore.twitchSet[word];
 
-      if (emoji) {
+      if (sevenTvEmoji || twitchEmoji) {
         if (messageString.trim().length) {
           pushTextComponent();
         }
 
-        components.push(
-          <Emoji
-            key={`emoji_${new Date().getMilliseconds()}`}
-            height={emoji.height ?? 0}
-            width={emoji.width ?? 0}
-            animatedSource={{
-              uri: emoji.url ?? '',
-            }}
-            thumbnailSource={{
-              uri: emoji.url ?? '',
-            }}
-            autoplay={true}
-            loop={true}
-          />,
-        );
+        if (sevenTvEmoji) {
+          components.push(
+            <SevenTvEmoji
+              key={`7tv_${new Date().getUTCMilliseconds()}`}
+              height={sevenTvEmoji.height ?? 0}
+              width={sevenTvEmoji.width ?? 0}
+              animatedSource={{
+                uri: sevenTvEmoji.url ?? '',
+              }}
+              thumbnailSource={{
+                uri: sevenTvEmoji.url ?? '',
+              }}
+              autoplay={true}
+              loop={true}
+            />,
+          );
+        }
+
+        if (twitchEmoji) {
+          components.push(
+            <TwitchEmoji
+              key={`twitch_${new Date().getUTCMilliseconds()}`}
+              resizeMode={'contain'}
+              height={twitchEmoji.height ?? 0}
+              width={twitchEmoji.width ?? 0}
+              source={{
+                uri: twitchEmoji.url || '',
+              }}
+            />,
+          );
+        }
       } else {
         messageString += `${word} `;
       }
