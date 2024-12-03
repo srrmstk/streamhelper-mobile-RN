@@ -31,13 +31,16 @@ export class EmojiService {
     return emojiSet;
   };
 
-  getTwitchGlobalEmojiSet = async () => {
-    const { data } = await this.repository.getTwitchGlobalEmojiSet();
+  getTwitchEmojiSet = async (userId: string) => {
+    const { data: globalSet } = await this.repository.getTwitchGlobalEmojiSet();
+    const { data: userSet } = await this.repository.getTwitchUserEmojiSet(
+      userId,
+    );
     const emojiSet: EmojiSet = {};
 
-    const template = data.template;
+    const template = globalSet.template;
 
-    for (let emote of data.data) {
+    for (let emote of [...globalSet.data, ...userSet.data]) {
       const id = emote.id;
       const format = emote.format.includes('animated') ? 'animated' : 'static';
       const url = template

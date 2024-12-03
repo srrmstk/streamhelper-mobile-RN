@@ -15,4 +15,10 @@ export class EmojiRepository extends AbstractRepository {
       url: 'https://api.twitch.tv/helix/chat/emotes/global',
     });
   };
+
+  getTwitchUserEmojiSet = (userId: string) => {
+    return this.twitchClient.get({
+      url: `https://api.twitch.tv/helix/chat/emotes?broadcaster_id=${userId}`,
+    });
+  };
 }

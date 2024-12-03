@@ -18,16 +18,16 @@ export class EmojiStore {
     this.setSevenTvUserSet(emojiList);
   };
 
-  getTwitchGlobalSet = async () => {
-    const emojiList = await this.service.getTwitchGlobalEmojiSet();
-    this.setTwitchGlobalSet(emojiList);
+  getTwitchSet = async (userId: string) => {
+    const emojiList = await this.service.getTwitchEmojiSet(userId);
+    this.setTwitchSet(emojiList);
   };
 
   private setSevenTvUserSet = (emojiList: EmojiSet) => {
     this.sevenTvUserSet = emojiList;
   };
 
-  private setTwitchGlobalSet = (emojiList: EmojiSet) => {
+  private setTwitchSet = (emojiList: EmojiSet) => {
     this.twitchSet = emojiList;
   };
 }
