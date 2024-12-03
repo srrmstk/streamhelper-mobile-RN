@@ -1,7 +1,8 @@
+import i18next from 'i18next';
 import Toast, { ToastConfig } from 'react-native-toast-message';
-import { IToastProps } from './types';
-import { ELocales } from '../../constants/locales';
+
 import { toastConfig } from './helpers';
+import { IToastProps } from './types';
 
 export class ToastService {
   static get config(): ToastConfig {
@@ -9,7 +10,7 @@ export class ToastService {
   }
 
   showSuccessToast = ({
-    title = ELocales.success,
+    title = i18next.t('success'),
     description = '',
   }: IToastProps) => {
     Toast.show({
@@ -20,7 +21,7 @@ export class ToastService {
   };
 
   showErrorToast = ({
-    title = ELocales.error,
+    title = i18next.t('error'),
     description = '',
   }: IToastProps) => {
     Toast.show({

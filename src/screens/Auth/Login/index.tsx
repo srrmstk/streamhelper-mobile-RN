@@ -1,14 +1,14 @@
+import { AppButton } from 'components';
+import { IS_IOS } from 'constants/platform';
+import { useAppNavigation } from 'hooks/useAppNavigation';
+import { useRootStore } from 'hooks/useRootStore';
 import { observer } from 'mobx-react';
+import { EMainRoutes } from 'navigation/Main/routes';
+import { ERootRoutes } from 'navigation/Root/routes';
 import { useTranslation } from 'react-i18next';
 
 import { getAuthUri } from './helpers';
 import { Container, Title } from './styled';
-import { AppButton } from '../../../components/AppButton';
-import { IS_IOS } from '../../../constants/platform';
-import { useAppNavigation } from '../../../hooks/useAppNavigation';
-import { useRootStore } from '../../../hooks/useRootStore';
-import { EMainRoutes } from '../../../navigation/Main/routes';
-import { ERootRoutes } from '../../../navigation/Root/routes';
 
 export const LoginScreen = observer(() => {
   const navigation = useAppNavigation();
@@ -36,7 +36,7 @@ export const LoginScreen = observer(() => {
 
   return (
     <Container>
-      <Title>{t('app_title')}</Title>
+      <Title>{t('appTitle')}</Title>
       <AppButton title={t('login')} onPress={handleLogin} />
     </Container>
   );

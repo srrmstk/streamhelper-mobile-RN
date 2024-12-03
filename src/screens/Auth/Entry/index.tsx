@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
 import { ActivityIndicator } from 'react-native';
 
+import { useAppNavigation } from 'hooks/useAppNavigation';
+import { useRootStore } from 'hooks/useRootStore';
 import { observer } from 'mobx-react';
+import { EAuthRoutes } from 'navigation/Auth/routes';
+import { EMainRoutes } from 'navigation/Main/routes';
+import { ERootRoutes } from 'navigation/Root/routes';
 import BootSplash from 'react-native-bootsplash';
 
 import { Container } from './styles';
-import { useAppNavigation } from '../../../hooks/useAppNavigation';
-import { useRootStore } from '../../../hooks/useRootStore';
-import { EAuthRoutes } from '../../../navigation/Auth/routes';
-import { EMainRoutes } from '../../../navigation/Main/routes';
-import { ERootRoutes } from '../../../navigation/Root/routes';
 
 export const EntryScreen = observer(() => {
-  const { authStore, userStore } = useRootStore();
+  const { authStore, userStore, emojiStore } = useRootStore();
   const navigation = useAppNavigation();
 
   useEffect(() => {
@@ -34,6 +34,7 @@ export const EntryScreen = observer(() => {
       const isUserReceived = await userStore.getUser();
 
       if (isUserReceived) {
+        emojiStore.getSevenTvUserEmojiSet(userStore.user?.id ?? '');
         navigation.replace(ERootRoutes.Main, {
           screen: EMainRoutes.Chat,
         });

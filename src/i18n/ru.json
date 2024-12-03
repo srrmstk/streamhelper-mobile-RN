@@ -1,7 +1,12 @@
 {
   "translation": {
     "test": "Тест",
-    "app_title": "Stream Helper",
+    "serverError": "Ошибка сервера",
+    "somethingWentWrong": "Что-то пошло не так",
+    "pleaseTryAgain": "Пожалуйста, попробуйте снова",
+    "success": "Успех",
+    "error": "Ошибка",
+    "appTitle": "Stream Helper",
     "logout": "Выйти из аккаунта",
     "login": "Войти с помощью Twitch"
   }
