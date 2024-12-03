@@ -1,6 +1,6 @@
-<h1 style="text-align:center"> Stream Helper :iphone: </h1>
+# Stream Helper :iphone:
 
-Stream Helper is a mobile application to help streamers with only one screen. 
+Stream Helper is a mobile application to help streamers check chat and alerts using their mobile phones. 
 
 ---
 
