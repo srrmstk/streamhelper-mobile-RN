@@ -2,6 +2,8 @@ import { useCallback } from 'react';
 import { ActivityIndicator, FlatList, ListRenderItem } from 'react-native';
 
 import { AppButton, AppText } from 'components';
+import { BottomSheet } from 'components/BottomSheet';
+import { useBottomSheetWrapper } from 'hooks/useBottomSheetWrapper';
 import { observer } from 'mobx-react';
 import { ChatMessage } from 'modules/Chat/models/chatMessage';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +12,7 @@ import { Author, Container, MessageContainer, Separator } from './styled';
 import { useChatController } from './useChatController';
 export const ChatScreen = observer(() => {
   const { t } = useTranslation();
+  const { ref, open } = useBottomSheetWrapper();
   const { isLoading, handleLogout, messages, formatChatMessage, isChatReady } =
     useChatController();
 
@@ -18,7 +21,7 @@ export const ChatScreen = observer(() => {
       const MessageContent = () => formatChatMessage(item);
 
       return (
-        <MessageContainer>
+        <MessageContainer onPress={open}>
           <Author color={item.color}>{item.author}</Author>
           <MessageContent />
         </MessageContainer>
@@ -44,6 +47,13 @@ export const ChatScreen = observer(() => {
     <Container>
       <AppButton title={t('logout')} onPress={handleLogout} />
       {isLoading ? <ActivityIndicator size={'large'} /> : renderContent()}
+      <BottomSheet ref={ref}>
+        <AppText>Aeae</AppText>
+        <AppText>Aeae</AppText>
+        <AppText>Aeae</AppText>
+        <AppText>Aeae</AppText>
+        <AppText>Aeae</AppText>
+      </BottomSheet>
     </Container>
   );
 });
