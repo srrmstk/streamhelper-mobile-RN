@@ -5,11 +5,13 @@ import { makeAutoObservable } from 'mobx';
 import { ChatService } from 'modules/Chat/chatService';
 import { CreateSubscriptionDto } from 'modules/Chat/dto/createSubscriptionDto';
 import { ChatMessage } from 'modules/Chat/models/chatMessage';
+import { ToastService } from 'modules/Toast/toastService';
 
 const { TWITCH_WS_URL } = CONFIG;
 
 export class ChatStore {
   private service: ChatService;
+  private toastService: ToastService;
   loadingModel: LoadingModel;
   ws: WebSocket | null = null;
   isInitialized: boolean = false;
@@ -19,6 +21,7 @@ export class ChatStore {
     makeAutoObservable(this);
 
     this.service = new ChatService();
+    this.toastService = new ToastService();
     this.loadingModel = new LoadingModel();
   }
 
@@ -42,8 +45,15 @@ export class ChatStore {
     }
   };
 
-  addMessage = (user: string, message: string, id: string, color: string) => {
+  addMessage = (
+    authorId: string,
+    user: string,
+    message: string,
+    id: string,
+    color: string,
+  ) => {
     const newMessage = this.service.createChatMessageModel(
+      authorId,
       user,
       message,
       id,
@@ -59,5 +69,13 @@ export class ChatStore {
 
   setIsInitialized = (value: boolean) => {
     this.isInitialized = value;
+  };
+
+  getChatUser = async (userId: string) => {
+    try {
+      return this.service.getChatUser(userId);
+    } catch {
+      this.toastService.showErrorToast({});
+    }
   };
 }

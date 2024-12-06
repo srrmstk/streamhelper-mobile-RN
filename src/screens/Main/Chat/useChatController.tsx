@@ -1,17 +1,23 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { AppText } from 'components';
 import { useAppNavigation } from 'hooks/useAppNavigation';
+import { useBottomSheetWrapper } from 'hooks/useBottomSheetWrapper';
 import { useRootStore } from 'hooks/useRootStore';
 import { ChatMessage } from 'modules/Chat/models/chatMessage';
 import { EAuthRoutes } from 'navigation/Auth/routes';
 import { ERootRoutes } from 'navigation/Root/routes';
+import { TSelectedMessage } from 'screens/Main/Chat/types';
 
 import { Message, SevenTvEmoji, TwitchEmoji } from './styled';
 
 export const useChatController = () => {
   const { authStore, userStore, chatStore, emojiStore } = useRootStore();
   const navigation = useAppNavigation();
+  const { ref, open } = useBottomSheetWrapper();
+  const [selectedMessage, setSelectedMessage] = useState<
+    TSelectedMessage | undefined
+  >();
 
   useEffect(() => {
     if (!chatStore.isInitialized) {
@@ -66,7 +72,9 @@ export const useChatController = () => {
 
     if (messageType === 'notification') {
       const payload = data?.payload?.event;
+
       chatStore.addMessage(
+        payload?.chatter_user_id,
         payload?.chatter_user_name,
         payload?.message?.text,
         payload?.message_id,
@@ -148,11 +156,38 @@ export const useChatController = () => {
     return <Message>{components}</Message>;
   };
 
+  const onMessagePress = async (item: ChatMessage) => {
+    if (!item.authorId) {
+      return;
+    }
+
+    open();
+    const user = await chatStore.getChatUser(item.authorId);
+
+    if (!user) {
+      onBottomSheetClose();
+      return;
+    }
+
+    setSelectedMessage({
+      userData: user,
+      messageData: item,
+    });
+  };
+
+  const onBottomSheetClose = () => {
+    setSelectedMessage(undefined);
+  };
+
   return {
     isLoading: chatStore.loadingModel.isLoading,
     handleLogout,
     formatChatMessage,
     messages: chatStore.messages,
     isChatReady: chatStore.isInitialized,
+    selectedMessage,
+    ref,
+    onMessagePress,
+    onBottomSheetClose,
   };
 };

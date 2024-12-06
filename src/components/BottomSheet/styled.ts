@@ -3,5 +3,4 @@ import styled from 'styled-components/native';
 
 export const BottomSheetContainer = styled(BottomSheetModal)`
   flex: 1;
-  padding: 0 16px;
 ` as typeof BottomSheetModal;

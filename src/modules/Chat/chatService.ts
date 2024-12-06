@@ -3,6 +3,7 @@ import { ChatRepository } from 'modules/Chat/chatRepository';
 import { CreateSubscriptionDto } from 'modules/Chat/dto/createSubscriptionDto';
 import { ChatMessage } from 'modules/Chat/models/chatMessage';
 import TwitchAxios from 'modules/TwitchAuth/client';
+import { UserModel } from 'modules/User/models/userModel';
 
 export class ChatService {
   private repository: ChatRepository;
@@ -17,16 +18,23 @@ export class ChatService {
   };
 
   createChatMessageModel = (
+    authorId: string,
     author: string,
     message: string,
     id: string,
     color: string,
   ) => {
     return ModelFactory.create(ChatMessage, {
+      authorId,
       author,
       message,
       id,
       color,
     });
+  };
+
+  getChatUser = async (userId: string) => {
+    const { data } = await this.repository.getChatUser(userId);
+    return ModelFactory.create(UserModel, data.data[0]);
   };
 }

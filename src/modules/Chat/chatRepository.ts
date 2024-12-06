@@ -19,4 +19,10 @@ export class ChatRepository extends AbstractRepository {
       },
     });
   };
+
+  getChatUser = (userId: string) => {
+    return this.client.get({
+      url: `https://api.twitch.tv/helix/users?id=${userId}`,
+    });
+  };
 }

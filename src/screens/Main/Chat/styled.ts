@@ -47,3 +47,7 @@ export const TwitchEmoji = styled(FastImage)<{ height: number; width: number }>`
   margin-left: 2px;
   margin-right: 2px;
 `;
+
+export const BottomSheetContainer = styled.View`
+  padding: 16px;
+`;

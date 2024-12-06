@@ -1,13 +1,14 @@
 import { FC } from 'react';
 
-import { PressableContainer } from './styled';
+import { PressableContainer, Text } from './styled';
 import { TAppButtonProps } from './types';
-import { AppText } from '../AppText';
 
 export const AppButton: FC<TAppButtonProps> = ({
   title,
   onPress,
   style,
+  topIcon,
+  textStyles,
   ...props
 }) => {
   return (
@@ -17,7 +18,10 @@ export const AppButton: FC<TAppButtonProps> = ({
       activeOpacity={0.8}
       {...props}
     >
-      <AppText>{title}</AppText>
+      <>
+        {topIcon || null}
+        <Text style={textStyles}>{title}</Text>
+      </>
     </PressableContainer>
   );
 };
