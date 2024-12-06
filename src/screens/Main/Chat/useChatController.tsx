@@ -141,5 +141,6 @@ export const useChatController = () => {
     onMessagePress,
     onBottomSheetClose,
     reconnect: chatStore.connect,
+    isConnected: chatStore.isConnected,
   };
 };

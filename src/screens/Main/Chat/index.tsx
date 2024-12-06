@@ -8,7 +8,14 @@ import { observer } from 'mobx-react';
 import { ChatMessage } from 'modules/Chat/models/chatMessage';
 
 import { MessageSheet } from './components/MessageSheet';
-import { Author, Container, MessageContainer, Separator } from './styled';
+import {
+  Author,
+  Container,
+  MessageContainer,
+  NotConnected,
+  NotConnectedContainer,
+  Separator,
+} from './styled';
 import { useChatController } from './useChatController';
 
 export const ChatScreen = observer(() => {
@@ -22,6 +29,7 @@ export const ChatScreen = observer(() => {
     ref,
     onBottomSheetClose,
     reconnect,
+    isConnected,
   } = useChatController();
 
   const renderMessage: ListRenderItem<ChatMessage> = useCallback(
@@ -41,6 +49,11 @@ export const ChatScreen = observer(() => {
   return (
     <Container>
       <AppButton title={LOCALES.Logout} onPress={handleLogout} />
+      {!isConnected && (
+        <NotConnectedContainer>
+          <NotConnected>{LOCALES.ChatConnectionError}</NotConnected>
+        </NotConnectedContainer>
+      )}
       <FlatList<ChatMessage>
         keyExtractor={item => `${item.id}`}
         data={messages}
