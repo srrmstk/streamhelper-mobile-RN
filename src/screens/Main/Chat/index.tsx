@@ -3,16 +3,15 @@ import { FlatList, ListRenderItem, RefreshControl } from 'react-native';
 
 import { AppButton } from 'components';
 import { BottomSheet } from 'components/BottomSheet';
+import { LOCALES } from 'constants/locales';
 import { observer } from 'mobx-react';
 import { ChatMessage } from 'modules/Chat/models/chatMessage';
-import { useTranslation } from 'react-i18next';
 
 import { MessageSheet } from './components/MessageSheet';
 import { Author, Container, MessageContainer, Separator } from './styled';
 import { useChatController } from './useChatController';
 
 export const ChatScreen = observer(() => {
-  const { t } = useTranslation();
   const {
     isLoading,
     handleLogout,
@@ -41,7 +40,7 @@ export const ChatScreen = observer(() => {
 
   return (
     <Container>
-      <AppButton title={t('logout')} onPress={handleLogout} />
+      <AppButton title={LOCALES.Logout} onPress={handleLogout} />
       <FlatList<ChatMessage>
         keyExtractor={item => `${item.id}`}
         data={messages}

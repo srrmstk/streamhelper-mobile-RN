@@ -5,7 +5,7 @@ import axios, {
   CreateAxiosDefaults,
   InternalAxiosRequestConfig,
 } from 'axios';
-import i18next from 'i18next';
+import { LOCALES } from 'constants/locales';
 import { ToastService } from 'modules/Toast/toastService';
 
 import { IAxiosConfig } from './types';
@@ -75,8 +75,8 @@ export class AxiosClient implements IAbstractClient {
       response => {
         if (!AxiosClient.SUCCESS_CODES.includes(response.status)) {
           this.toastService.showErrorToast({
-            title: response.data?.message || i18next.t('somethingWentWrong'),
-            description: i18next.t('pleaseTryAgain'),
+            title: response.data?.message || LOCALES.SomethingWentWrong,
+            description: LOCALES.PleaseTryAgain,
           });
 
           return Promise.reject(response);
@@ -89,8 +89,8 @@ export class AxiosClient implements IAbstractClient {
 
         if (status === AxiosClient.SERVER_ERROR_CODE) {
           this.toastService.showErrorToast({
-            title: i18next.t('serverError'),
-            description: i18next.t('pleaseTryAgain'),
+            title: LOCALES.ServerError,
+            description: LOCALES.PleaseTryAgain,
           });
         }
 

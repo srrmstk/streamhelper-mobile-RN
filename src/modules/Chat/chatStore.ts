@@ -1,7 +1,7 @@
 import { Dto } from 'base/Dto';
 import { LoadingModel } from 'base/LoadingModel';
 import { CONFIG } from 'constants/config';
-import i18next from 'i18next';
+import { LOCALES } from 'constants/locales';
 import { makeAutoObservable } from 'mobx';
 import { ChatService } from 'modules/Chat/chatService';
 import { CreateSubscriptionDto } from 'modules/Chat/dto/createSubscriptionDto';
@@ -85,7 +85,7 @@ export class ChatStore {
     try {
       await this.service.createSubscription(dto);
       this.toastService.showSuccessToast({
-        description: i18next.t('chatConnectionSuccess'),
+        description: LOCALES.ChatConnectionSuccess,
       });
     } catch (e) {
       // eslint-disable-next-line
@@ -149,7 +149,7 @@ export class ChatStore {
     // eslint-disable-next-line
     console.log('error', e);
     this.toastService.showErrorToast({
-      description: i18next.t('chatConnectionError'),
+      description: LOCALES.ChatConnectionError,
     });
   };
 
