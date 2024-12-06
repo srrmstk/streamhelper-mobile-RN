@@ -13,8 +13,7 @@ import { Container, Title } from './styled';
 export const LoginScreen = observer(() => {
   const navigation = useAppNavigation();
   const { t } = useTranslation();
-
-  const { authStore } = useRootStore();
+  const { authStore, userStore } = useRootStore();
 
   const handleLogin = async () => {
     const uri = getAuthUri();
@@ -26,8 +25,9 @@ export const LoginScreen = observer(() => {
     }
 
     const result = await authStore.auth(uri);
+    const user = await userStore.getUser();
 
-    if (result) {
+    if (result && user) {
       navigation.replace(ERootRoutes.Main, {
         screen: EMainRoutes.Chat,
       });
@@ -37,7 +37,13 @@ export const LoginScreen = observer(() => {
   return (
     <Container>
       <Title>{t('appTitle')}</Title>
-      <AppButton title={t('login')} onPress={handleLogin} />
+      <AppButton
+        title={t('login')}
+        onPress={handleLogin}
+        isLoading={
+          authStore.loadingModel.isLoading || userStore.loadingModel.isLoading
+        }
+      />
     </Container>
   );
 });

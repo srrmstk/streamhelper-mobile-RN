@@ -15,7 +15,7 @@ export class AxiosClient implements IAbstractClient {
   client: AxiosInstance;
   private toastService: ToastService;
 
-  static readonly SUCCESS_CODES = [200, 201];
+  static readonly SUCCESS_CODES = [200, 201, 202, 203, 204];
   static readonly SERVER_ERROR_CODE = 500;
   static readonly UN_AUTH = 401;
 

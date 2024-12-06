@@ -20,6 +20,18 @@ export class ChatRepository extends AbstractRepository {
     });
   };
 
+  getSubscriptions = () => {
+    return this.client.get({
+      url: 'https://api.twitch.tv/helix/eventsub/subscriptions',
+    });
+  };
+
+  deleteSubscription = (id: string) => {
+    return this.client.delete({
+      url: `https://api.twitch.tv/helix/eventsub/subscriptions?id=${id}`,
+    });
+  };
+
   getChatUser = (userId: string) => {
     return this.client.get({
       url: `https://api.twitch.tv/helix/users?id=${userId}`,

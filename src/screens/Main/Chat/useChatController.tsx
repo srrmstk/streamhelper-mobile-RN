@@ -5,24 +5,26 @@ import { useAppNavigation } from 'hooks/useAppNavigation';
 import { useBottomSheetWrapper } from 'hooks/useBottomSheetWrapper';
 import { useRootStore } from 'hooks/useRootStore';
 import { ChatMessage } from 'modules/Chat/models/chatMessage';
+import { ToastService } from 'modules/Toast/toastService';
 import { EAuthRoutes } from 'navigation/Auth/routes';
 import { ERootRoutes } from 'navigation/Root/routes';
-import { TSelectedMessage } from 'screens/Main/Chat/types';
+import { useTranslation } from 'react-i18next';
 
 import { Message, SevenTvEmoji, TwitchEmoji } from './styled';
+import { TSelectedMessage } from './types';
 
 export const useChatController = () => {
   const { authStore, userStore, chatStore, emojiStore } = useRootStore();
   const navigation = useAppNavigation();
   const { ref, open } = useBottomSheetWrapper();
+  const { t } = useTranslation();
+
   const [selectedMessage, setSelectedMessage] = useState<
     TSelectedMessage | undefined
   >();
 
   useEffect(() => {
-    if (!chatStore.isInitialized) {
-      chatStore.initWs();
-    }
+    handleWsConnect();
 
     const ws = chatStore.ws;
 
@@ -30,23 +32,33 @@ export const useChatController = () => {
       return;
     }
 
-    ws.onopen = () => {
-      chatStore.setIsInitialized(true);
-    };
-
     ws.onmessage = e => {
       const data = JSON.parse(e.data);
       handleMessage(data);
     };
 
+    ws.onerror = () => {
+      new ToastService().showErrorToast({
+        description: t('chatConnectionError'),
+      });
+    };
+
     ws.onclose = () => {
-      chatStore.setIsInitialized(false);
       chatStore.deinitWs();
     };
+
+    return ws.close();
   }, []);
+
+  const handleWsConnect = () => {
+    if (!chatStore.isInitialized) {
+      chatStore.initWs();
+    }
+  };
 
   const handleLogout = async () => {
     const isLoggedOut = await authStore.logout();
+    chatStore.setMessages([]);
 
     if (isLoggedOut) {
       navigation.replace(ERootRoutes.Auth, {
@@ -182,9 +194,9 @@ export const useChatController = () => {
   return {
     isLoading: chatStore.loadingModel.isLoading,
     handleLogout,
+    handleWsConnect,
     formatChatMessage,
     messages: chatStore.messages,
-    isChatReady: chatStore.isInitialized,
     selectedMessage,
     ref,
     onMessagePress,

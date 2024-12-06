@@ -9,6 +9,7 @@
     "appTitle": "Stream Helper",
     "logout": "Logout",
     "login": "Log In via Twitch",
-    "cannotConnect": "Can't connect"
+    "chatConnectionError": "Can't connect to chat",
+    "chatConnectionSuccess": "Welcome to the chat!"
   }
 }

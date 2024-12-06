@@ -9,6 +9,7 @@
     "appTitle": "Stream Helper",
     "logout": "Выйти из аккаунта",
     "login": "Войти с помощью Twitch",
-    "cannotConnect": "Нет подключения"
+    "chatConnectionError": "Не удалось подключиться к чату",
+    "chatConnectionSuccess": "Добро пожаловать в чат!"
   }
 }

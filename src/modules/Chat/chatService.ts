@@ -13,8 +13,29 @@ export class ChatService {
   }
 
   createSubscription = async (dto: CreateSubscriptionDto) => {
+    const existingSubscriptions = await this.getSubscriptions();
+
+    if (existingSubscriptions.length > 0) {
+      for (let sub of existingSubscriptions) {
+        try {
+          this.deleteSubscription(sub.id);
+        } catch (e) {
+          /* empty */
+        }
+      }
+    }
+
     const { data } = await this.repository.createSubscription(dto);
     return data;
+  };
+
+  getSubscriptions = async () => {
+    const { data } = await this.repository.getSubscriptions();
+    return data.data;
+  };
+
+  deleteSubscription = async (id: string) => {
+    await this.repository.deleteSubscription(id);
   };
 
   createChatMessageModel = (
