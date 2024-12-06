@@ -3,6 +3,7 @@ import AnimatedWebP from 'react-native-animated-webp';
 import FastImage from 'react-native-fast-image';
 import styled from 'styled-components/native';
 import { EColors } from 'theme/colors';
+import { TYPOGRAPHY } from 'theme/typography';
 
 export const Container = styled(ScreenContainer)`
   margin: 0 -16px;
@@ -46,4 +47,20 @@ export const TwitchEmoji = styled(FastImage)<{ height: number; width: number }>`
   height: ${({ height }) => height}px;
   margin-left: 2px;
   margin-right: 2px;
+`;
+
+export const BottomSheetContainer = styled.View`
+  padding: 16px;
+`;
+
+export const NotConnectedContainer = styled.View`
+  background-color: ${EColors.Danger};
+  margin-top: 8px;
+  padding: 4px;
+  align-items: center;
+`;
+
+export const NotConnected = styled(AppText)`
+  ${TYPOGRAPHY.Callout}
+  color: ${EColors.White}
 `;

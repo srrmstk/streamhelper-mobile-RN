@@ -2,6 +2,9 @@ import { jsonName, jsonProperty, Serializable } from 'ts-serializable';
 
 export class ChatMessage extends Serializable {
   @jsonProperty(String, null)
+  authorId: string | null = null;
+
+  @jsonProperty(String, null)
   author: string | null = null;
 
   @jsonProperty(String, null)

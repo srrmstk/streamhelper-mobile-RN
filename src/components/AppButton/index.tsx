@@ -1,23 +1,35 @@
 import { FC } from 'react';
+import { ActivityIndicator } from 'react-native';
 
-import { PressableContainer } from './styled';
+import { PressableContainer, Text } from './styled';
 import { TAppButtonProps } from './types';
-import { AppText } from '../AppText';
 
 export const AppButton: FC<TAppButtonProps> = ({
   title,
   onPress,
   style,
+  isLoading,
+  disabled,
+  topIcon,
+  textStyles,
   ...props
 }) => {
   return (
     <PressableContainer
       onPress={onPress}
       style={style}
+      disabled={disabled || isLoading}
       activeOpacity={0.8}
       {...props}
     >
-      <AppText>{title}</AppText>
+      <>
+        {topIcon || null}
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <Text style={textStyles}>{title}</Text>
+        )}
+      </>
     </PressableContainer>
   );
 };

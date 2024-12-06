@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import { LOCALES } from 'constants/locales';
 import Toast, { ToastConfig } from 'react-native-toast-message';
 
 import { toastConfig } from './helpers';
@@ -9,25 +9,19 @@ export class ToastService {
     return toastConfig;
   }
 
-  showSuccessToast = ({
-    title = i18next.t('success'),
-    description = '',
-  }: IToastProps) => {
+  showSuccessToast = (props?: IToastProps) => {
     Toast.show({
       type: 'success',
-      text1: title,
-      text2: description,
+      text1: props?.title ?? LOCALES.Success,
+      text2: props?.description ?? '',
     });
   };
 
-  showErrorToast = ({
-    title = i18next.t('error'),
-    description = '',
-  }: IToastProps) => {
+  showErrorToast = (props?: IToastProps) => {
     Toast.show({
       type: 'error',
-      text1: title,
-      text2: description,
+      text1: props?.title ?? LOCALES.Error,
+      text2: props?.description ?? '',
     });
   };
 }

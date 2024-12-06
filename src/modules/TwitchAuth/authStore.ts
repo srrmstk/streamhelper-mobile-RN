@@ -34,7 +34,7 @@ export class AuthStore {
 
       return true;
     } catch (e) {
-      this.toastService.showErrorToast({});
+      this.toastService.showErrorToast();
       return false;
     } finally {
       this.loadingModel.setIsLoading(false);
@@ -48,7 +48,7 @@ export class AuthStore {
       await this.authService.logout(this.accessToken || '');
       return true;
     } catch (e) {
-      this.toastService.showErrorToast({});
+      this.toastService.showErrorToast();
       return false;
     } finally {
       action(async () => {

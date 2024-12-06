@@ -1,3 +1,4 @@
+import { AppText } from 'components';
 import styled from 'styled-components/native';
 import { EColors } from 'theme/colors';
 
@@ -7,4 +8,8 @@ export const PressableContainer = styled.TouchableOpacity`
   align-items: center;
   padding: 16px;
   background-color: ${EColors.Primary2};
+`;
+
+export const Text = styled(AppText)`
+  text-align: center;
 `;

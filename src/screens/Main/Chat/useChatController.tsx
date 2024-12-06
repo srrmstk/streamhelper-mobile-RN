@@ -1,77 +1,37 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { AppText } from 'components';
 import { useAppNavigation } from 'hooks/useAppNavigation';
+import { useBottomSheetWrapper } from 'hooks/useBottomSheetWrapper';
 import { useRootStore } from 'hooks/useRootStore';
 import { ChatMessage } from 'modules/Chat/models/chatMessage';
 import { EAuthRoutes } from 'navigation/Auth/routes';
 import { ERootRoutes } from 'navigation/Root/routes';
 
 import { Message, SevenTvEmoji, TwitchEmoji } from './styled';
+import { TSelectedMessage } from './types';
 
 export const useChatController = () => {
-  const { authStore, userStore, chatStore, emojiStore } = useRootStore();
+  const { authStore, chatStore, userStore, emojiStore } = useRootStore();
   const navigation = useAppNavigation();
+  const { ref, open } = useBottomSheetWrapper();
+
+  const [selectedMessage, setSelectedMessage] = useState<
+    TSelectedMessage | undefined
+  >();
 
   useEffect(() => {
-    if (!chatStore.isInitialized) {
-      chatStore.initWs();
-    }
-
-    const ws = chatStore.ws;
-
-    if (!ws) {
-      return;
-    }
-
-    ws.onopen = () => {
-      chatStore.setIsInitialized(true);
-    };
-
-    ws.onmessage = e => {
-      const data = JSON.parse(e.data);
-      handleMessage(data);
-    };
-
-    ws.onclose = () => {
-      chatStore.setIsInitialized(false);
-      chatStore.deinitWs();
-    };
+    chatStore.connect();
   }, []);
 
   const handleLogout = async () => {
     const isLoggedOut = await authStore.logout();
+    chatStore.clearMessages();
 
     if (isLoggedOut) {
       navigation.replace(ERootRoutes.Auth, {
         screen: EAuthRoutes.Entry,
       });
-    }
-  };
-
-  // @TODO: add types for twitch messages
-  // eslint-disable-next-line
-  const handleMessage = (data: any) => {
-    const messageType = data?.metadata?.message_type;
-
-    if (messageType === 'session_welcome') {
-      const sessionId = data?.payload?.session?.id;
-
-      if (sessionId && userStore.user?.id) {
-        chatStore.createSubscription(userStore.user.id, sessionId);
-      }
-
-      return;
-    }
-
-    if (messageType === 'notification') {
-      const payload = data?.payload?.event;
-      chatStore.addMessage(
-        payload?.chatter_user_name,
-        payload?.message?.text,
-        payload?.message_id,
-        payload?.color,
-      );
     }
   };
 
@@ -148,11 +108,39 @@ export const useChatController = () => {
     return <Message>{components}</Message>;
   };
 
+  const onMessagePress = async (item: ChatMessage) => {
+    if (!item.authorId) {
+      return;
+    }
+
+    open();
+    const user = await userStore.getUserById(item.authorId);
+
+    if (!user) {
+      onBottomSheetClose();
+      return;
+    }
+
+    setSelectedMessage({
+      userData: user,
+      messageData: item,
+    });
+  };
+
+  const onBottomSheetClose = () => {
+    setSelectedMessage(undefined);
+  };
+
   return {
     isLoading: chatStore.loadingModel.isLoading,
     handleLogout,
     formatChatMessage,
     messages: chatStore.messages,
-    isChatReady: chatStore.isInitialized,
+    selectedMessage,
+    ref,
+    onMessagePress,
+    onBottomSheetClose,
+    reconnect: chatStore.connect,
+    isConnected: chatStore.ws.isConnected,
   };
 };

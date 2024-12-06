@@ -1,24 +1,43 @@
 import { useCallback } from 'react';
-import { ActivityIndicator, FlatList, ListRenderItem } from 'react-native';
+import { FlatList, ListRenderItem, RefreshControl } from 'react-native';
 
-import { AppButton, AppText } from 'components';
+import { AppButton } from 'components';
+import { BottomSheet } from 'components/BottomSheet';
+import { LOCALES } from 'constants/locales';
 import { observer } from 'mobx-react';
 import { ChatMessage } from 'modules/Chat/models/chatMessage';
-import { useTranslation } from 'react-i18next';
 
-import { Author, Container, MessageContainer, Separator } from './styled';
+import { MessageSheet } from './components/MessageSheet';
+import {
+  Author,
+  Container,
+  MessageContainer,
+  NotConnected,
+  NotConnectedContainer,
+  Separator,
+} from './styled';
 import { useChatController } from './useChatController';
+
 export const ChatScreen = observer(() => {
-  const { t } = useTranslation();
-  const { isLoading, handleLogout, messages, formatChatMessage, isChatReady } =
-    useChatController();
+  const {
+    isLoading,
+    handleLogout,
+    messages,
+    formatChatMessage,
+    selectedMessage,
+    onMessagePress,
+    ref,
+    onBottomSheetClose,
+    reconnect,
+    isConnected,
+  } = useChatController();
 
   const renderMessage: ListRenderItem<ChatMessage> = useCallback(
     ({ item }) => {
       const MessageContent = () => formatChatMessage(item);
 
       return (
-        <MessageContainer>
+        <MessageContainer onPress={() => onMessagePress(item)}>
           <Author color={item.color}>{item.author}</Author>
           <MessageContent />
         </MessageContainer>
@@ -27,23 +46,26 @@ export const ChatScreen = observer(() => {
     [messages],
   );
 
-  const renderContent = () => {
-    return !isChatReady ? (
-      <AppText>{t('cannotConnect')}</AppText>
-    ) : (
+  return (
+    <Container>
+      <AppButton title={LOCALES.Logout} onPress={handleLogout} />
+      {!isConnected && (
+        <NotConnectedContainer>
+          <NotConnected>{LOCALES.ChatConnectionError}</NotConnected>
+        </NotConnectedContainer>
+      )}
       <FlatList<ChatMessage>
         keyExtractor={item => `${item.id}`}
         data={messages}
         renderItem={renderMessage}
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={reconnect} />
+        }
         ItemSeparatorComponent={() => <Separator />}
       />
-    );
-  };
-
-  return (
-    <Container>
-      <AppButton title={t('logout')} onPress={handleLogout} />
-      {isLoading ? <ActivityIndicator size={'large'} /> : renderContent()}
+      <BottomSheet ref={ref} onDismiss={onBottomSheetClose}>
+        <MessageSheet selectedMessage={selectedMessage} />
+      </BottomSheet>
     </Container>
   );
 });

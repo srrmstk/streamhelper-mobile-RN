@@ -19,4 +19,22 @@ export class ChatRepository extends AbstractRepository {
       },
     });
   };
+
+  getSubscriptions = () => {
+    return this.client.get({
+      url: 'https://api.twitch.tv/helix/eventsub/subscriptions',
+    });
+  };
+
+  deleteSubscription = (id: string) => {
+    return this.client.delete({
+      url: `https://api.twitch.tv/helix/eventsub/subscriptions?id=${id}`,
+    });
+  };
+
+  deleteMessage = (userId: string, messageId: string) => {
+    return this.client.delete({
+      url: `https://api.twitch.tv/helix/moderation/chat?broadcaster_id=${userId}&moderator_id=${userId}&message_id=${messageId}`,
+    });
+  };
 }

@@ -9,6 +9,15 @@
     "appTitle": "Stream Helper",
     "logout": "Выйти из аккаунта",
     "login": "Войти с помощью Twitch",
-    "cannotConnect": "Нет подключения"
+    "chatConnectionError": "Не удалось подключиться к чату",
+    "chatConnectionSuccess": "Добро пожаловать в чат!",
+    "successfullyTimedOut": "Пользователь был отстранен",
+    "successfullyBanned": "Пользователь был забанен",
+    "successfullyUnbanned": "Пользователь был разблокирован",
+    "successfullyDeleted": "Сообщение удалено",
+    "delete": "Удалить",
+    "ban": "Бан",
+    "unban": "Разбан",
+    "timeout": "Отстранить"
   }
 }
