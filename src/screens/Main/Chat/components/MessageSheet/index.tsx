@@ -15,10 +15,11 @@ import {
   UserNameSkeleton,
   Wrapper,
 } from 'screens/Main/Chat/components/MessageSheet/styled';
-import { useMessageSheetController } from 'screens/Main/Chat/components/MessageSheet/useMessageSheetController';
 import { BottomSheetContainer } from 'screens/Main/Chat/styled';
 import { TSelectedMessage } from 'screens/Main/Chat/types';
 import { EColors } from 'theme/colors';
+
+import { useMessageSheetController } from './useMessageSheetController';
 
 export type TProps = {
   selectedMessage?: TSelectedMessage;
