@@ -1,10 +1,5 @@
 import { useCallback } from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  ListRenderItem,
-  RefreshControl,
-} from 'react-native';
+import { FlatList, ListRenderItem, RefreshControl } from 'react-native';
 
 import { AppButton } from 'components';
 import { BottomSheet } from 'components/BottomSheet';
@@ -21,13 +16,13 @@ export const ChatScreen = observer(() => {
   const {
     isLoading,
     handleLogout,
-    handleWsConnect,
     messages,
     formatChatMessage,
     selectedMessage,
     onMessagePress,
     ref,
     onBottomSheetClose,
+    reconnect,
   } = useChatController();
 
   const renderMessage: ListRenderItem<ChatMessage> = useCallback(
@@ -44,24 +39,18 @@ export const ChatScreen = observer(() => {
     [messages],
   );
 
-  const renderContent = () => {
-    return (
+  return (
+    <Container>
+      <AppButton title={t('logout')} onPress={handleLogout} />
       <FlatList<ChatMessage>
         keyExtractor={item => `${item.id}`}
         data={messages}
         renderItem={renderMessage}
         refreshControl={
-          <RefreshControl refreshing={isLoading} onRefresh={handleWsConnect} />
+          <RefreshControl refreshing={isLoading} onRefresh={reconnect} />
         }
         ItemSeparatorComponent={() => <Separator />}
       />
-    );
-  };
-
-  return (
-    <Container>
-      <AppButton title={t('logout')} onPress={handleLogout} />
-      {isLoading ? <ActivityIndicator size={'large'} /> : renderContent()}
       <BottomSheet ref={ref} onDismiss={onBottomSheetClose}>
         <MessageSheet selectedMessage={selectedMessage} />
       </BottomSheet>
