@@ -8,6 +8,7 @@ import { CreateSubscriptionDto } from 'modules/Chat/dto/createSubscriptionDto';
 import { ChatMessage } from 'modules/Chat/models/chatMessage';
 import { ToastService } from 'modules/Toast/toastService';
 import { UserStore } from 'modules/User/userStore';
+import { WebSocketStore } from 'modules/WebSocket/websocketStore';
 
 const { TWITCH_WS_URL } = CONFIG;
 
@@ -16,8 +17,7 @@ export class ChatStore {
   private toastService: ToastService;
   private userStore: UserStore;
   loadingModel: LoadingModel;
-  ws: WebSocket | null = null;
-  isConnected: boolean = false;
+  ws: WebSocketStore;
   messages: ChatMessage[] = [];
 
   constructor(userStore: UserStore) {
@@ -28,22 +28,15 @@ export class ChatStore {
     this.loadingModel = new LoadingModel();
 
     this.userStore = userStore;
+    this.ws = new WebSocketStore({
+      onMessage: this.onMessage,
+      onError: this.onError,
+    });
   }
 
-  connect = async () => {
-    if (this.isConnected) {
-      return;
-    }
-
-    try {
-      this.isConnected = true;
-      this.ws = new WebSocket(`${TWITCH_WS_URL}?keepalive_timeout_seconds=30`);
-      this.initListeners();
-    } catch (e) {
-      // eslint-disable-next-line
-      console.log(e);
-      this.isConnected = false;
-    }
+  connect = () => {
+    const url = `${TWITCH_WS_URL}?keepalive_timeout_seconds=30`;
+    this.ws.connect(url);
   };
 
   getChatUser = async (userId: string) => {
@@ -54,29 +47,12 @@ export class ChatStore {
     }
   };
 
-  setMessages = (newMessages: ChatMessage[]) => {
-    this.messages = newMessages;
+  clearMessages = () => {
+    this.setMessages([]);
   };
 
-  initListeners = () => {
-    if (this.isConnected && this.ws) {
-      this.ws.onopen = () => {
-        this.onOpen();
-      };
-
-      this.ws.onmessage = e => {
-        const data = JSON.parse(e.data);
-        this.onMessage(data);
-      };
-
-      this.ws.onerror = e => {
-        this.onError(e);
-      };
-
-      this.ws.onclose = e => {
-        this.onClose(e);
-      };
-    }
+  private setMessages = (newMessages: ChatMessage[]) => {
+    this.messages = newMessages;
   };
 
   private createSubscription = async (userId: string, sessionId: string) => {
@@ -113,10 +89,6 @@ export class ChatStore {
     this.setMessages(newMessages);
   };
 
-  private onOpen = () => {
-    this.isConnected = true;
-  };
-
   // @TODO: add types for twitch messages
   // eslint-disable-next-line
   private onMessage = (data: any) => {
@@ -145,18 +117,9 @@ export class ChatStore {
     }
   };
 
-  private onError = (e: WebSocketErrorEvent) => {
-    // eslint-disable-next-line
-    console.log('error', e);
+  private onError = () => {
     this.toastService.showErrorToast({
       description: LOCALES.ChatConnectionError,
     });
-  };
-
-  private onClose = (e: WebSocketCloseEvent) => {
-    // eslint-disable-next-line
-    console.log('close', e);
-    this.ws = null;
-    this.isConnected = false;
   };
 }

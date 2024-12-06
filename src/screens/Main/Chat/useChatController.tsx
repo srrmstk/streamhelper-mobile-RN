@@ -26,7 +26,7 @@ export const useChatController = () => {
 
   const handleLogout = async () => {
     const isLoggedOut = await authStore.logout();
-    chatStore.setMessages([]);
+    chatStore.clearMessages();
 
     if (isLoggedOut) {
       navigation.replace(ERootRoutes.Auth, {
@@ -141,6 +141,6 @@ export const useChatController = () => {
     onMessagePress,
     onBottomSheetClose,
     reconnect: chatStore.connect,
-    isConnected: chatStore.isConnected,
+    isConnected: chatStore.ws.isConnected,
   };
 };
