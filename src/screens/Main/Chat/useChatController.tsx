@@ -12,7 +12,7 @@ import { Message, SevenTvEmoji, TwitchEmoji } from './styled';
 import { TSelectedMessage } from './types';
 
 export const useChatController = () => {
-  const { authStore, chatStore, emojiStore } = useRootStore();
+  const { authStore, chatStore, userStore, emojiStore } = useRootStore();
   const navigation = useAppNavigation();
   const { ref, open } = useBottomSheetWrapper();
 
@@ -114,7 +114,7 @@ export const useChatController = () => {
     }
 
     open();
-    const user = await chatStore.getChatUser(item.authorId);
+    const user = await userStore.getUserById(item.authorId);
 
     if (!user) {
       onBottomSheetClose();

@@ -32,9 +32,9 @@ export class ChatRepository extends AbstractRepository {
     });
   };
 
-  getChatUser = (userId: string) => {
-    return this.client.get({
-      url: `https://api.twitch.tv/helix/users?id=${userId}`,
+  deleteMessage = (userId: string, messageId: string) => {
+    return this.client.delete({
+      url: `https://api.twitch.tv/helix/moderation/chat?broadcaster_id=${userId}&moderator_id=${userId}&message_id=${messageId}`,
     });
   };
 }

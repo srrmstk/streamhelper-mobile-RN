@@ -9,25 +9,19 @@ export class ToastService {
     return toastConfig;
   }
 
-  showSuccessToast = ({
-    title = LOCALES.Success,
-    description = '',
-  }: IToastProps) => {
+  showSuccessToast = (props?: IToastProps) => {
     Toast.show({
       type: 'success',
-      text1: title,
-      text2: description,
+      text1: props?.title ?? LOCALES.Success,
+      text2: props?.description ?? '',
     });
   };
 
-  showErrorToast = ({
-    title = LOCALES.Error,
-    description = '',
-  }: IToastProps) => {
+  showErrorToast = (props?: IToastProps) => {
     Toast.show({
       type: 'error',
-      text1: title,
-      text2: description,
+      text1: props?.title ?? LOCALES.Error,
+      text2: props?.description ?? '',
     });
   };
 }

@@ -39,16 +39,23 @@ export class ChatStore {
     this.ws.connect(url);
   };
 
-  getChatUser = async (userId: string) => {
-    try {
-      return this.service.getChatUser(userId);
-    } catch {
-      this.toastService.showErrorToast({});
-    }
-  };
-
   clearMessages = () => {
     this.setMessages([]);
+  };
+
+  deleteMessage = async (messageId: string) => {
+    try {
+      if (!this.userStore.user?.id) {
+        return;
+      }
+
+      await this.service.deleteMessage(this.userStore.user?.id, messageId);
+      this.toastService.showSuccessToast({
+        description: LOCALES.SuccessfullyDeleted,
+      });
+    } catch {
+      /* empty */
+    }
   };
 
   private setMessages = (newMessages: ChatMessage[]) => {

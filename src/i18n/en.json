@@ -10,6 +10,14 @@
     "logout": "Logout",
     "login": "Log In via Twitch",
     "chatConnectionError": "Can't connect to chat",
-    "chatConnectionSuccess": "Welcome to the chat!"
+    "chatConnectionSuccess": "Welcome to the chat!",
+    "successfullyTimedOut": "User has been timed out",
+    "successfullyBanned": "User has been banned",
+    "successfullyUnbanned": "User has been unbanned",
+    "successfullyDeleted": "The message has been deleted",
+    "delete": "Delete",
+    "ban": "Ban",
+    "unban": "Unban",
+    "timeout": "Timeout"
   }
 }

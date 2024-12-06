@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { AppText } from 'components';
+import { LOCALES } from 'constants/locales';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   Action,
@@ -14,14 +15,19 @@ import {
   UserNameSkeleton,
   Wrapper,
 } from 'screens/Main/Chat/components/MessageSheet/styled';
+import { useMessageSheetController } from 'screens/Main/Chat/components/MessageSheet/useMessageSheetController';
 import { BottomSheetContainer } from 'screens/Main/Chat/styled';
 import { TSelectedMessage } from 'screens/Main/Chat/types';
 import { EColors } from 'theme/colors';
+
 export type TProps = {
   selectedMessage?: TSelectedMessage;
 };
 
 export const MessageSheet: FC<TProps> = ({ selectedMessage }) => {
+  const { banUser, unbanUser, deleteMessage } =
+    useMessageSheetController(selectedMessage);
+
   return (
     <BottomSheetContainer>
       <Wrapper>
@@ -45,16 +51,27 @@ export const MessageSheet: FC<TProps> = ({ selectedMessage }) => {
         {selectedMessage ? (
           <Actions>
             <Action
-              title={'Delete'}
+              title={LOCALES.Delete}
+              onPress={deleteMessage}
               topIcon={<Icon name={'delete'} size={32} />}
             />
             <Action
-              title={'Timeout'}
+              title={LOCALES.Timeout}
+              onPress={() => banUser({ duration: 30 })}
               topIcon={<Icon name={'timer-outline'} size={32} />}
             />
             <Action
+              title={LOCALES.Ban}
+              onPress={() => banUser()}
               isAccent={true}
-              title={'Ban'}
+              topIcon={
+                <Icon name={'cancel'} size={32} color={EColors.Danger} />
+              }
+            />
+            <Action
+              title={LOCALES.Unban}
+              onPress={unbanUser}
+              isAccent={true}
               topIcon={
                 <Icon name={'cancel'} size={32} color={EColors.Danger} />
               }
