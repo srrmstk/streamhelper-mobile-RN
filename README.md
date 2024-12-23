@@ -9,7 +9,7 @@ Stream Helper is a mobile application to help streamers check chat and alerts us
 - Read chat with animated Twitch and 7tv emotes!
 - Moderate chat with ease
 - Create polls and predictions
-- Donation Alerts tips and subs notifications
+- Observe Donation Alerts tips and subs notifications
 
 ---
 
