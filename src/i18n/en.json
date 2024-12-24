@@ -16,6 +16,7 @@
     "successfullyUnbanned": "User has been unbanned",
     "successfullyDeleted": "The message has been deleted",
     "delete": "Delete",
+    "deleted": "Deleted",
     "ban": "Ban",
     "unban": "Unban",
     "timeout": "Timeout"

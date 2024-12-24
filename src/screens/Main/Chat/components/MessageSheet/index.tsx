@@ -52,9 +52,21 @@ export const MessageSheet: FC<TProps> = ({ selectedMessage }) => {
         {selectedMessage ? (
           <Actions>
             <Action
-              title={LOCALES.Delete}
+              title={
+                selectedMessage.messageData.isDeleted
+                  ? LOCALES.Deleted
+                  : LOCALES.Delete
+              }
+              disabled={selectedMessage.messageData.isDeleted}
               onPress={deleteMessage}
-              topIcon={<Icon name={'delete'} size={32} />}
+              topIcon={
+                <Icon
+                  name={
+                    selectedMessage.messageData.isDeleted ? 'check' : 'delete'
+                  }
+                  size={32}
+                />
+              }
             />
             <Action
               title={LOCALES.Timeout}

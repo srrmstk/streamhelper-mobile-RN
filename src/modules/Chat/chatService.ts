@@ -54,6 +54,6 @@ export class ChatService {
   };
 
   deleteMessage = async (userId: string, messageId: string) => {
-    return await this.repository.deleteMessage(userId, messageId);
+    await this.repository.deleteMessage(userId, messageId);
   };
 }

@@ -9,9 +9,10 @@ export const Container = styled(ScreenContainer)`
   margin: 0 -16px;
 `;
 
-export const MessageContainer = styled.TouchableOpacity`
+export const MessageContainer = styled.TouchableOpacity<{ isDeleted: boolean }>`
   flex: 1;
   padding: 8px 16px;
+  opacity: ${({ isDeleted }) => (isDeleted ? 0.4 : 1)};
 `;
 
 export const Author = styled(AppText)<{ color: string | null }>`

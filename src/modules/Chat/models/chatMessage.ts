@@ -16,4 +16,7 @@ export class ChatMessage extends Serializable {
   @jsonName('messageId')
   @jsonProperty(String, null)
   id: string | null = null;
+
+  @jsonProperty(Boolean)
+  isDeleted: boolean = false;
 }
