@@ -16,6 +16,7 @@ export const LOCALES = {
   SuccessfullyDeleted: i18next.t('successfullyDeleted'),
   SuccessfullyUnbanned: i18next.t('successfullyUnbanned'),
   Delete: i18next.t('delete'),
+  Deleted: i18next.t('deleted'),
   Ban: i18next.t('ban'),
   Unban: i18next.t('unban'),
   Timeout: i18next.t('timeout'),

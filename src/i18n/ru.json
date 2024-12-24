@@ -16,6 +16,7 @@
     "successfullyUnbanned": "Пользователь был разблокирован",
     "successfullyDeleted": "Сообщение удалено",
     "delete": "Удалить",
+    "deleted": "Удалено",
     "ban": "Бан",
     "unban": "Разбан",
     "timeout": "Отстранить"

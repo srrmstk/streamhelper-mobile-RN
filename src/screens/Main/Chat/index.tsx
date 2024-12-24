@@ -37,7 +37,10 @@ export const ChatScreen = observer(() => {
       const MessageContent = () => formatChatMessage(item);
 
       return (
-        <MessageContainer onPress={() => onMessagePress(item)}>
+        <MessageContainer
+          onPress={() => onMessagePress(item)}
+          isDeleted={item.isDeleted}
+        >
           <Author color={item.color}>{item.author}</Author>
           <MessageContent />
         </MessageContainer>
@@ -56,7 +59,7 @@ export const ChatScreen = observer(() => {
       )}
       <FlatList<ChatMessage>
         keyExtractor={item => `${item.id}`}
-        data={messages}
+        data={messages.slice()}
         renderItem={renderMessage}
         refreshControl={
           <RefreshControl refreshing={isLoading} onRefresh={reconnect} />

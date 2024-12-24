@@ -50,6 +50,8 @@ export class ChatStore {
       }
 
       await this.service.deleteMessage(this.userStore.user?.id, messageId);
+      this.markMessageAsDeleted(messageId);
+
       this.toastService.showSuccessToast({
         description: LOCALES.SuccessfullyDeleted,
       });
@@ -60,6 +62,20 @@ export class ChatStore {
 
   private setMessages = (newMessages: ChatMessage[]) => {
     this.messages = newMessages;
+  };
+
+  private markMessageAsDeleted = (id: string) => {
+    const idx = this.messages.findIndex(message => message.id === id);
+    const updatedMessage = this.messages.find(message => message.id === id);
+
+    if (idx === -1 || !updatedMessage || updatedMessage.isDeleted) {
+      return;
+    }
+
+    updatedMessage.isDeleted = true;
+    updatedMessage.message += ` - ${LOCALES.Deleted}`;
+
+    this.messages.splice(idx, 1, updatedMessage);
   };
 
   private createSubscription = async (userId: string, sessionId: string) => {
